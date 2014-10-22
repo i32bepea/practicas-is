@@ -1,4 +1,4 @@
 practicas-is
 ============
 
-Este repositorio no sirve para nada
+Este repositorio es una prueba
