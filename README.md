@@ -1,4 +1,4 @@
 practicas-is
 ============
 
-Practicas de IS
+Este repositorio no sirve para nada
