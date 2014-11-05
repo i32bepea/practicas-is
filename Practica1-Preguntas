@@ -56,7 +56,33 @@ R: Le gustaría tener una lista de favoritos, los que más llama.
 
 R: Quiere además una opción de impresión. 
 
+////////////////////////////////////////
+PARTES INTERESADAS:
 
+Dentista
+Pacientes
+Administrativo/a (será el actor principal)
+
+FUNCONALES:
+
+- Una agenda como la del teléfono inteligente
+- Buscar
+- Ordenación
+- Insertar-Modificar-Borrar
+- Sin login para acceder (no es un requisito)
+- Copias de seguridad manuales a un fichero local.
+- Interfaz de texto.
+- Almacenar información del paciente: DNI, nombre y apellidos, teléfonos, correos electrónicos, dirección(es) postales, anotaciones, favorito, mas usados y redes socuales(nombre + url ó usuario)
+- Interfaz: texto por consola.
+- Imprimir de forma bonita en un texto plano o HTML opcionalmente
+
+NO FUNCIONALES:
+
+- Escrito en C++
+- Se ejecuta en un ordenador con linux.
+- Nivel de seguridad cero.
+- Integridad de datos: copias de seguridad manuales.
+- El alamacenamiento es texto plano/binario.
 
 
 
