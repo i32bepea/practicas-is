@@ -1,0 +1,88 @@
+PREGUNTAS PARA EL CLIENTE:
+
+1. ¿Qué cantidad de contactos desea albergar su programa?
+R: 200 pacientes.
+
+2. Va a querer una interfaz completa o mas sencilla?
+3. Que opciones de ordenación va a querer utilizar en su agenda? (DNI, nombre, apellidos, direccion, cp, por ultima visita, mas recientes)ABAJO
+
+4. Que campos serían obligatorios para usted a la hora de añadir un nuevo contacto.
+R: nombre, apellidos, dni, opcional: telefonos, correo electronico, *redes sociales*, direccion, 
+
+5. Que campos opcionales querría incluir.
+
+6. Desea realizar copias periodicas de seguridad de sus contactos? en caso de que si, cada cuanto tiempo, en formato fisico o en la nube.
+7. Si un cliente cambia el número de telefono o algun dato, desea guardar su informacion anterior o desea especificar x campos que se guardarán o ninguno.
+
+8. Desea tener una opción de contactos favoritos? SI ABAJO
+
+/////////////////////
+
+- Que es lo que quiere de la aplicación?: 
+
+R: tengo una persona en la puerta con las citas apuntadas, quiere buscar en la agenda citas, etc.
+
+- Tiene ordenador con linux
+
+- Cantidad de telefonos: R: tel1 telf2
+
+- Como quieres que se presente la solucón:
+R: Terminal
+
+- por que campos buscarias los contactos: 
+R: 
+
+- metodo de ordenación: 
+R: quiero buscarlos, pero si tuviese k verlos del tiron por orden alfabético.
+
+R: tiene que haber siempre insertar, modificar y borrar.
+
+R: No quiere tener mas recientes.
+
+- Clientes o empleados:
+R: Solo clientes. (Agenda como la del teléfono)
+
+- Partes interesadas:
+R: Administrativo de la puerta.
+
+- Login:
+R: PUBLICA.
+
+R: copia de seguridad en el disco duro, en un fichero de texto, la creacion de la copia la realiza el usuario con el menú.
+
+R: Puede incluir nota en los datos.
+
+R: Le gustaría tener una lista de favoritos, los que más llama.
+
+R: Quiere además una opción de impresión. 
+
+////////////////////////////////////////
+PARTES INTERESADAS:
+
+Dentista
+Pacientes
+Administrativo/a (será el actor principal)
+
+FUNCONALES:
+
+- Una agenda como la del teléfono inteligente
+- Buscar
+- Ordenación
+- Insertar-Modificar-Borrar
+- Sin login para acceder (no es un requisito)
+- Copias de seguridad manuales a un fichero local.
+- Interfaz de texto.
+- Almacenar información del paciente: DNI, nombre y apellidos, teléfonos, correos electrónicos, dirección(es) postales, anotaciones, favorito, mas usados y redes socuales(nombre + url ó usuario)
+- Interfaz: texto por consola.
+- Imprimir de forma bonita en un texto plano o HTML opcionalmente
+
+NO FUNCIONALES:
+
+- Escrito en C++
+- Se ejecuta en un ordenador con linux.
+- Nivel de seguridad cero.
+- Integridad de datos: copias de seguridad manuales.
+- El alamacenamiento es texto plano/binario.
+
+
+
