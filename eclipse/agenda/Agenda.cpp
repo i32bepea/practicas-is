@@ -90,9 +90,29 @@ int Agenda::borrarContacto (const std::string &DNI){
 
 }
 
+
 int Agenda::modificarContacto (const std::string &DNI){
 	//-1 significa que ha intentado borrar alguno de los campos obligatorios.
+	std::cout<<"1. Modificar contacto entero.\n2.Modificar por parámetros.\nIntroduzca el número de la opción deseada:";
+	int opt;
 	Contacto aux;
+	std::cin>>opt;
+	switch(opt){
+	case 1:
+		borrarContacto (DNI);
+
+
+		break;
+	case 2:
+
+
+		break;
+
+	default:
+		std::cout<<"Opción incorrecta!\n";
+
+	}
+
 	int encontrado=0;
 	std::string auxiliar;
 	for(std::list<Contacto>::iterator pos=listaContactos_.begin();pos!=listaContactos_.end()&&encontrado==0;pos++){
@@ -101,7 +121,7 @@ int Agenda::modificarContacto (const std::string &DNI){
 			encontrado=1;
 		}
 	}
-
+	if(encontrado==1){
 	std::cout<<"Pulse ENTER en caso de que no quiera modificar dicho campo, o BARRA ESPACIADORA para borrar dicho campo(Recuerde que no se pueden borrar los campos Nombre, Apellidos y DNI:\n";
 
 	std::cout<<"Nombre:";
@@ -114,7 +134,8 @@ int Agenda::modificarContacto (const std::string &DNI){
 
 			aux.setNombre(auxiliar);
 		}
-
+	}
+	return encontrado;
 
 
 }

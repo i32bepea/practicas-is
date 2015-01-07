@@ -27,6 +27,7 @@ public:
 	bool listarFavoritos();
 	bool listarMasUsados();
 	void imprimirContacto (const Contacto &c);
+	Contacto rellenarContacto(); //Rellena los datos del contacto
 
 	const std::list<Contacto>& getListaContactos() const {
 		return listaContactos_;
