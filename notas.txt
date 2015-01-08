@@ -1,5 +1,10 @@
 ##Solucionar problemas con eclipse:
 Go to Project > Properties > C/C++ General > Preprocessor Includes... > Providers and select "CDT GCC Built-in Compiler Settings Cygwin [Shared]". 
 ##
+##Para escoger mi rama:
+git checkout Ulises
+##
+##Para listar las ramas:
+git branch -a
+##
 
-PRUEBA DE ULISES
