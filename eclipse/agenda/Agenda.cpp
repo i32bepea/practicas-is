@@ -149,8 +149,21 @@ void Agenda::imprimirContacto (const Contacto &c){
 		std::cout<<"Teléfono: "<<(*it2)<<std::endl;
 }
 
+bool Agenda::listarContactos () {
 
+	if(listaContactos_.empty()){
+			return 0;
+	}
 
+	else {
+
+		for(std::list<Contacto>::iterator pos=listaContactos_.begin();pos!=listaContactos_.end();pos++){
+
+			imprimirContacto(*pos);
+		}
+			return 1;
+	}
+}
 
 
 Agenda::Agenda() {
