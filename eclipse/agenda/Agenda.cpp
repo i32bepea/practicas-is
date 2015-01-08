@@ -159,7 +159,8 @@ bool Agenda::listarContactos () {
 
 		for(std::list<Contacto>::iterator pos=listaContactos_.begin();pos!=listaContactos_.end();pos++){
 
-			imprimirContacto(*pos);
+			std::cout << (*pos);
+			//imprimirContacto(*pos);
 		}
 			return true;
 	}
@@ -168,22 +169,22 @@ bool Agenda::listarContactos () {
 bool Agenda::listarFavoritos() {
 
 	if(listaContactos_.empty()){
-				return 0;
+				return false;
 		}
 
 		else {
 
 			for(std::list<Contacto>::iterator pos=listaContactos_.begin();pos!=listaContactos_.end();pos++){
 
+				if(pos->isFavorito()==true) {
 
+					std::cout << (*pos);
+					//imprimirContacto(*pos);
+
+				}
 			}
-
-				return 1;
-
-
-
-
-
+			return true;
+		}
 }
 
 Agenda::Agenda() {
