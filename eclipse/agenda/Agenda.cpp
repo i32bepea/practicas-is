@@ -152,7 +152,7 @@ void Agenda::imprimirContacto (const Contacto &c){
 bool Agenda::listarContactos () {
 
 	if(listaContactos_.empty()){
-			return 0;
+			return false;
 	}
 
 	else {
@@ -161,10 +161,30 @@ bool Agenda::listarContactos () {
 
 			imprimirContacto(*pos);
 		}
-			return 1;
+			return true;
 	}
 }
 
+bool Agenda::listarFavoritos() {
+
+	if(listaContactos_.empty()){
+				return 0;
+		}
+
+		else {
+
+			for(std::list<Contacto>::iterator pos=listaContactos_.begin();pos!=listaContactos_.end();pos++){
+
+
+			}
+
+				return 1;
+
+
+
+
+
+}
 
 Agenda::Agenda() {
 	// TODO Auto-generated constructor stub
