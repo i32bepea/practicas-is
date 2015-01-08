@@ -39,6 +39,7 @@ public:
 	bool realizarCopia();
 	bool restaurarCopia (std::string nombre);
 	bool Agenda::borrarCopia (std::string nombre);
+	bool Agenda::listarCopia ();
 };
 
 
