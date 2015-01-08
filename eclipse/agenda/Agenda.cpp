@@ -164,11 +164,9 @@ switch(opt){
 					if(cadena=="")//Comprueba que no ha dejado el campo vacio.
 						return -1; //El error tiene que ser mostrado por pantalla en el programa principal.
 					(*c).setApellidos(cadena); //Introduce el campo en el contacto.
-				break;
-				case 4:
 
 				break;
-				case 5:
+				case 4:
 					std::vector <Direccion>::iterator it0;
 					int i=1;
 					aux=(*c);
@@ -207,14 +205,89 @@ switch(opt){
 					(*c).setDireccion(v); //Asignamos el vector de direcciones al contacto real.
 
 				break;
-				case 6:
 
+				case 5:
+					std::string cadena;
+					std::cout<<"Introduzca el email:";
+					std::cin<<cadena;
+					if(cadena=="")//Comprueba que no ha dejado el campo vacio.
+						return -1; //El error tiene que ser mostrado por pantalla en el programa principal.
+					(*c).setEmail(cadena); //Introduce el campo en el contacto.
 				break;
-				case 7:
 
+				case 6:
+					std::vector <Redes>::iterator it1;
+					int i=1;
+					aux=(*c);
+					for(it1=aux.getRedesSociales().begin();it1!=aux.getRedesSociales().end();it1++,i++)
+							std::cout<<i<<". Red social: "<<(*it1).redSocial<<", usuario: "<<(*it1).usuario<<std::endl;
+
+					std::cout<<"Introduzca el número de la dirección a modificar:";
+					int opt=1;
+					while(opt>=1||opt<=i){ //Método para comprobar que la red social introducida es correcta.
+						std::cin>>opt;
+						if(opt<1||opt>i){
+							opt=1;
+							std::cout<<"ERROR! La red social introducida no existe.\nIntroduzca el número de la red social a modificar:";
+						}
+						else
+							opt=0;
+					}
+
+					std::vector <Redes> v1=aux.getDireccion;
+					//Recogemos los datos de la red social.
+					std::cout<<"Introduzca la red social:";
+					std::cin>>v1[opt-1].redSocial;
+					std::cout<<"Introduzca el usuario:";
+					std::cin>>v1[opt-1].usuario;
+
+					(*c).setRedesSociales(v1); //Asignamos el vector de direcciones al contacto real.
+				break;
+
+				case 7:
+						std::cout<<"Introduzca 'S' si es favorito y 'N' si no es favorito:";
+						char fav;
+						int control=0;
+						while(control==0){ //Controla si la opción escogida es correcta, si no lo es vuelve a pedir su introducción.
+							std::cin>>fav;
+							if(fav=="s"||fav=="S"){
+								(*c).setFavorito(true);
+								control=1;
+							}
+							else if(fav=="n"||fav=="N"){
+								(*c).setFavorito(false);
+								control=1;
+							}
+							else{
+								std::cout<<"Opción incorrecta. Vuelva a introducirla: "
+							}
+						}
 				break;
 				case 8:
+					std::vector <std::string>::iterator it2;
+										int i=1;
+										aux=(*c);
+										for(it1=aux.getTelefonos().begin();it1!=aux.getTelefonos().end();it1++,i++)
+												std::cout<<i<<". Número de teléfono: "<<(*it1)<<std::endl;
 
+										std::cout<<"Introduzca el número de la dirección a modificar:";
+										int opt=1;
+										while(opt>=1||opt<=i){ //Método para comprobar que el teléfono introducida es correcta.
+											std::cin>>opt;
+											if(opt<1||opt>i){
+												opt=1;
+												std::cout<<"ERROR! El teléfono introducido no existe.\nIntroduzca el número de el teléfono a modificar:";
+											}
+											else
+												opt=0;
+										}
+
+										std::vector <std::string> v2=aux.getDireccion;
+										//Recogemos los datos del número de teléfono.
+										std::cout<<"Introduzca el número de teléfono:";
+										std::cin>>v2[opt-1];
+
+										(*c).setTelefonos(v2); //Asignamos el vector de teléfonos al contacto real.
 				break;
 				case 9:
 						salir=1;
@@ -231,27 +304,7 @@ switch(opt){
 	default:
 	std::cout<<"Opción incorrecta!\n";
 }
-int encontrado=0;
-std::string auxiliar;
-	for(std::list<Contacto>::iterator pos=listaContactos_.begin();pos!=listaContactos_.end()&&encontrado==0;pos++){
-		if((*pos).getDni()==DNI){
-		aux=(*pos);
-		encontrado=1;
-		}
-	}
-if(encontrado==1){
-	std::cout<<"Pulse ENTER en caso de que no quiera modificar dicho campo, o BARRA ESPACIADORA para borrar dicho campo(Recuerde que no se pueden borrar los campos Nombre, Apellidos y DNI:\n";
-	std::cout<<"Nombre:";
-	std::cin<<auxiliar;
-	if(auxiliar==" "){
-		//ERROR NO SE PUEDE BORRAR
-		return -1;
-	}
-	else if(auxiliar!=""){
-		aux.setNombre(auxiliar);
-	}
-}
-return encontrado;
+	return 1;
 }
 
 
