@@ -345,10 +345,36 @@ bool Agenda::realizarCopia (){ //Realiza una copia de agenda.juda a /CS/fechaYho
      strftime(output,128,"%d.%m.%y-%H:%M:%S",tlocal);
      std::string cadena="cp agenda.juda /CS/" + output + ".juda";
 
-	system(cadena.c_str());
+	if(system(cadena.c_str())==-1){
+		return false;
+	}
+	else{
+		return true;
+	}
 }
 
+bool Agenda::restaurarCopia (std::string nombre){ // Restaura la copia de seguridad indicada en string nombre, tiene que venir con la extensión, y las comprobaciones de que exista las hace la función.
+	std::string cadena="/CS/" + nombre;
+	 std:: ifstream f (cadena.c_str());
+	  if (f.is_open())
+	  {
+		  f.close();
 
+			if(system("rm agenda.juda")==-1){
+				return false;
+			}
+			cadena= "cp " + cadena + "agenda.juda";
+			if(system(cadena.c_str())==-1){
+				return false;
+			}
+			else
+				return true;
+	   }
+	  else{
+		  f.close();
+		  return false; //No existe el archivo del que restaurar la copia.
+	  }
+}
 
 Agenda::Agenda() {
 	// TODO Auto-generated constructor stub

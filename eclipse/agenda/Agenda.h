@@ -37,6 +37,7 @@ public:
 		listaContactos_ = listaContactos;
 	}
 	bool realizarCopia();
+	bool restaurarCopia (std::string nombre);
 };
 
 
