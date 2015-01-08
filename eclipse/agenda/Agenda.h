@@ -21,12 +21,12 @@ public:
 
 	bool insertarContacto (const Contacto &c);
 	int buscarContacto (const std::string &apellidos);
+	Contacto * buscarContactoAux (const std::string &DNI,int * devuelto);
 	int borrarContacto (const std::string &DNI);
 	int modificarContacto (const std::string &DNI);
 	bool listarContactos();
 	bool listarFavoritos();
 	bool listarMasUsados();
-	void imprimirContacto (const Contacto &c);
 
 	const std::list<Contacto>& getListaContactos() const {
 		return listaContactos_;
