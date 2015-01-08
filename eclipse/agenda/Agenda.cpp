@@ -376,6 +376,25 @@ bool Agenda::restaurarCopia (std::string nombre){ // Restaura la copia de seguri
 	  }
 }
 
+bool Agenda::borrarCopia (std::string nombre){ // Borra la copia de seguridad indicada en string nombre, tiene que venir con la extensión, y las comprobaciones de que exista las hace la función.
+	std::string cadena="/CS/" + nombre;
+	 std:: ifstream f (cadena.c_str());
+	  if (f.is_open())
+	  {
+		  f.close();
+
+			cadena= "rm  " + cadena;
+			if(system(cadena.c_str())==-1){
+				return false;
+			}
+			else
+				return true;
+	   }
+	  else{
+		  f.close();
+		  return false; //No existe la copia de seguridad que hay que borrar.
+	  }
+}
 Agenda::Agenda() {
 	// TODO Auto-generated constructor stub
 
