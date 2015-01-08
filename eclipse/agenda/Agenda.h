@@ -36,6 +36,8 @@ public:
 	void setListaContactos(const std::list<Contacto>& listaContactos) {
 		listaContactos_ = listaContactos;
 	}
+	bool realizarCopia();
 };
+
 
 #endif /* AGENDA_H_ */

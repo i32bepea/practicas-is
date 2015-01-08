@@ -10,7 +10,8 @@
 #include <cstdio>
 #include <iostream>
 #include <cstdlib>
-
+#include <fstream>
+#include <ctime>
 
 bool Agenda::insertarContacto(const Contacto &c){
 
@@ -335,7 +336,17 @@ void Agenda::imprimirContacto (const Contacto &c){
 		std::cout<<"Teléfono: "<<(*it2)<<std::endl;
 }
 
+bool Agenda::realizarCopia (){ //Realiza una copia de agenda.juda a /CS/fechaYhora.juda
+	system("mkdir CS");
 
+    time_t tiempo = time(0);
+     struct tm *tlocal = localtime(&tiempo);
+     char output[128];
+     strftime(output,128,"%d.%m.%y-%H:%M:%S",tlocal);
+     std::string cadena="cp agenda.juda /CS/" + output + ".juda";
+
+	system(cadena.c_str());
+}
 
 
 
