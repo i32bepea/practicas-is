@@ -52,7 +52,7 @@ bool Agenda::insertarContacto(const Contacto &c){
 	int salir=0,cont=0;
 
 	if(!listaContactos_.empty()){
-		for(std::list<Contacto>::iterator pos=listaContactos_.begin(),cont=0; pos!=listaContactos_.end()&&salir==0;pos++,cont++){
+		for(std::list<Contacto>::iterator pos=listaContactos_.begin(); pos!=listaContactos_.end()&&salir==0;pos++){
 
 			if(strcmp(c.getApellidos().c_str(),(*pos).getApellidos().c_str())>0){
 				if(cont==0)
@@ -65,7 +65,7 @@ bool Agenda::insertarContacto(const Contacto &c){
 				ant=pos;
 
 			}
-
+			cont++;
 		}
 
 	}
@@ -98,11 +98,10 @@ int Agenda::buscarContacto (const std::string &apellidos){
 		return 1;
 }
 
-Contacto * Agenda::buscarContactoAux (const std::string &DNI,int * devuelto){
-//La misma función que buscarContacto con la diferencia de que busca por DNI, devuelve un puntero hacia el contacto y no lo imprime.
+Contacto Agenda::buscarContactoAux (const std::string &DNI,int * devuelto){
+//La misma función que buscarContacto con la diferencia de que busca por DNI,devuelve el contacto y no lo imprime.
 //Devuelve por referencia 0 si está vacía, 1 si lo ha encontrado y -1 si no existe.
 	int encontrado=0;
-
 	if(listaContactos_.empty()){
 		(*devuelto)=0;
 	}
@@ -110,7 +109,7 @@ Contacto * Agenda::buscarContactoAux (const std::string &DNI,int * devuelto){
 	for(std::list<Contacto>::iterator pos=listaContactos_.begin();pos!=listaContactos_.end();pos++){
 		if(DNI==pos->getDni()){
 
-			//return pos;  Alvaro:Dejo esto comentado hasta que se solucione
+			return *pos;
 			encontrado=1;
 		}
 	}
@@ -146,9 +145,10 @@ int Agenda::borrarContacto (const std::string &DNI){
 int Agenda::modificarContacto (const std::string &DNI){
 //-1 significa que ha intentado borrar alguno de los campos obligatorios. 0 que no existe el contacto que se quiere modificar.
 	int devuelto;
-	Contacto * c;//Puntero que contendrá la dirección del contacto;
+	Contacto contacto;//Puntero que contendrá la dirección del contacto;
+	contacto=buscarContactoAux(DNI,&devuelto);//Se busca el contacto y se guarda la dirección de memoria real, en c.
+	Contacto * c=&contacto;
 
-	c=buscarContactoAux(DNI,&devuelto);//Se busca el contacto y se guarda la dirección de memoria real, en c.
 
 	if(devuelto!=1) //Comprueba si existe el contacto que se quiere modificar y si no existe se devuelve 0.
 		return 0; //Tiene que mostrarse en pantalla el error.
@@ -380,6 +380,11 @@ int Agenda::modificarContacto (const std::string &DNI){
 			break;}
 
 			case 9:
+				borrarContacto (DNI);
+
+				if(insertarContacto(contacto)==false)
+					std::cout<<"ERROR! Ha habido un error a la hora de introducir el contacto modificado en la agenda";
+
 				salir=1;
 
 			break;
