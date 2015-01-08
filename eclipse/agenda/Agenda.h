@@ -21,7 +21,8 @@ public:
 
 	bool insertarContacto (const Contacto &c);
 	int buscarContacto (const std::string &apellidos);
-	int borrarContacto (const std::string &DNI);
+	int Agenda::borrarContacto (const std::string &DNI);
+	Contacto * Agenda::buscarContactoAux (const std::string &apellidos,int * devuelto);//La misma función que buscarContacto con la diferencia de que busca por DNI, devuelve un puntero hacia el contacto y no lo imprime.
 	int modificarContacto (const std::string &DNI);
 	bool listarContactos();
 	bool listarFavoritos();
