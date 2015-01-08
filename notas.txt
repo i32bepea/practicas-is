@@ -7,4 +7,8 @@ git checkout Ulises
 ##Para listar las ramas:
 git branch -a
 ##
+## 
+git add eclipse
+git commit eclipse -m"COMENTARIO"
+git push
 
