@@ -117,6 +117,9 @@ public:
 	}
 
 	friend std::ostream &operator<<(std::ostream &o,const Contacto &c);//Sobrecarga flujo salida
+
+	friend std::istream &operator>>(std::istream &i,Contacto &c);//Sobrecarga flujo entrada
+
 };
 
 #endif /* CONTACTO_H_ */

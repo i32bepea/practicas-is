@@ -49,10 +49,10 @@ bool Agenda::insertarContacto(const Contacto &c){
 			return false; //Comprobamos que los campos obligatorios han sido insertados.
 
 	std::list<Contacto>::iterator ant;
-	int salir=0,cont;
+	int salir=0,cont=0;
 
 	if(!listaContactos_.empty()){
-		for(std::list<Contacto>::iterator pos=listaContactos_.begin(),cont=0; pos!=listaContactos_.end()&&salir==0;pos++,cont++){
+		for(std::list<Contacto>::iterator pos=listaContactos_.begin(); pos!=listaContactos_.end()&&salir==0;pos++,cont++){
 
 			if(strcmp(c.getApellidos().c_str(),(*pos).getApellidos().c_str())>0){
 				if(cont==0)
