@@ -15,7 +15,7 @@ private:
 	std::list <Contacto> listaContactos_;
 
 public:
-	Agenda();
+	Agenda(); //El constructor, vuelca la lista de contactos de agenda.juda si existe.
 	virtual ~Agenda();
 
 
@@ -28,7 +28,7 @@ public:
 	bool listarFavoritos();
 	bool listarMasUsados();
 	void imprimirContacto (const Contacto &c);
-	void volcado(); //Vuelca la agenda al fichero agenda.juda conservando los contactos preexistentes en agenda.juda
+	void volcado(); //Vuelca la agenda al fichero agenda.juda
 
 	const std::list<Contacto>& getListaContactos() const {
 		return listaContactos_;
