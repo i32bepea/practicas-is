@@ -10,8 +10,6 @@
 
 bool GestorCS::realizarCopia (Agenda a){ //Realiza una copia de agenda.juda a /CS/fechaYhora.juda Para ello tiene que volcar los datos existentes de Agenda a agenda.juda
 
-	a.volcado(); //Volcamos los datos de la agenda a el fichero agenda.juda para poder realizar la copia de seguridad.
-
 		  //PROCESO DE COPIA de seguridad de agenda.juda
 
 	system("mkdir CS");
@@ -74,7 +72,7 @@ bool GestorCS::borrarCopia (std::string nombre){ // Borra la copia de seguridad 
 		  return false; //No existe la copia de seguridad que hay que borrar.
 	  }
 }
-bool GestorCS::listarCopia (){ // Borra la copia de seguridad indicada en string nombre, tiene que venir con la extensión, y las comprobaciones de que exista las hace la función.
+bool GestorCS::listarCopia (){
 	if(system("ls CP")==-1){
 					return false;
 				}

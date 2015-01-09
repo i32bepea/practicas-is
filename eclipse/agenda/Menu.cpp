@@ -18,6 +18,12 @@ void Menu::salir(){
 
 }
 
+void Menu::seguridad(){
+	agenda_.volcado();
+
+
+}
+
 Menu::Menu() {
 	// TODO Auto-generated constructor stub
 

@@ -157,7 +157,7 @@ int Agenda::modificarContacto (const std::string &DNI){
 	Contacto aux;
 
 	std::cout<<"1. Modificar contacto entero.\n2.Modificar por parámetros.\nIntroduzca el número de la opción deseada:";
-	std::cin>>opt;
+	std::cin<<opt;
 
 	switch(opt){
 
@@ -188,7 +188,7 @@ int Agenda::modificarContacto (const std::string &DNI){
 
 				std::string cadena;
 				std::cout<<"Introduzca el DNI:";
-				std::cin>>cadena;
+				std::getline(std::cin,cadena,'\n');
 
 				if(cadena=="")//Comprueba que no ha dejado el campo vacio.
 					return -1; //El error tiene que ser mostrado por pantalla en el programa principal.
@@ -202,7 +202,7 @@ int Agenda::modificarContacto (const std::string &DNI){
 				std::string cadena;
 
 				std::cout<<"Introduzca el nombre:";
-				std::cin>>cadena;
+				std::getline(std::cin,cadena,'\n');
 
 				if(cadena=="")//Comprueba que no ha dejado el campo vacio.
 					return -1; //El error tiene que ser mostrado por pantalla en el programa principal.
@@ -216,7 +216,7 @@ int Agenda::modificarContacto (const std::string &DNI){
 				std::string cadena;
 
 				std::cout<<"Introduzca los apellidos:";
-				std::cin>>cadena;
+				std::getline(std::cin,cadena,'\n');
 
 				if(cadena=="")//Comprueba que no ha dejado el campo vacio.
 					return -1; //El error tiene que ser mostrado por pantalla en el programa principal.
@@ -253,19 +253,19 @@ int Agenda::modificarContacto (const std::string &DNI){
 				std::vector <Direccion> v=aux.getDireccion();
 				//Recogemos los datos de la dirección.
 				std::cout<<"Introduzca la calle:";
-				std::cin>>v[opt-1].calle;
+				std::getline(std::cin,v[opt-1].calle,'\n');
 				std::cout<<"Introduzca el número:";
 				std::cin>>v[opt-1].numero;
 				std::cout<<"Introduzca el código postal:";
 				std::cin>>v[opt-1].CP;
 				std::cout<<"Introduzca la ciudad:";
-				std::cin>>v[opt-1].ciudad;
+				std::getline(std::cin,v[opt-1].ciudad,'\n');
 				std::cout<<"Introduzca la provincia:";
-				std::cin>>v[opt-1].provincia;
+				std::getline(std::cin,v[opt-1].provincia,'\n');
 				std::cout<<"Introduzca el número:";
 				std::cin>>v[opt-1].numero;
 				std::cout<<"Introduzca el tipo de calle:";
-				std::cin>>v[opt-1].tipoCalle;
+				std::getline(std::cin,v[opt-1].tipoCalle,'\n');
 
 				(*c).setDireccion(v); //Asignamos el vector de direcciones al contacto real.
 
@@ -276,7 +276,7 @@ int Agenda::modificarContacto (const std::string &DNI){
 				std::string cadena;
 
 				std::cout<<"Introduzca el email:";
-				std::cin>>cadena;
+				std::getline(std::cin,cadena,'\n');
 
 				if(cadena=="")//Comprueba que no ha dejado el campo vacio.
 					return -1; //El error tiene que ser mostrado por pantalla en el programa principal.
@@ -311,9 +311,10 @@ int Agenda::modificarContacto (const std::string &DNI){
 				std::vector <Redes> v1=aux.getRedesSociales();
 				//Recogemos los datos de la red social.
 				std::cout<<"Introduzca la red social:";
-				std::cin>>v1[opt-1].redSocial;
+				std::getline(std::cin,v1[opt-1].redSocial,'\n');
 				std::cout<<"Introduzca el usuario:";
-				std::cin>>v1[opt-1].usuario;
+				std::getline(std::cin,v1[opt-1].usuario,'\n');
+
 
 				(*c).setRedesSociales(v1); //Asignamos el vector de direcciones al contacto real.
 
@@ -373,7 +374,7 @@ int Agenda::modificarContacto (const std::string &DNI){
 				std::vector <std::string> v2 = aux.getTelefonos();
 				//Recogemos los datos del número de teléfono.
 				std::cout<<"Introduzca el número de teléfono:";
-				std::cin>>v2[opt-1];
+				std::getline(std::cin,v2[opt-1],'\n');
 
 				(*c).setTelefonos(v2); //Asignamos el vector de teléfonos al contacto real.*/
 
