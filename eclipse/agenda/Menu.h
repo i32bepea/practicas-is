@@ -7,8 +7,12 @@
 
 #ifndef MENU_H_
 #define MENU_H_
+#include "Agenda.h"
 
 class Menu {
+private:
+	Agenda agenda_;
+
 public:
 
 	void insertarContacto(); //Se tiene que realizar un cin para rellenar los datos y pasarlo a la función insertarContacto.
@@ -22,6 +26,14 @@ public:
 
 	Menu(); //Tiene que cargar todos los contactos del fichero en la lista de agenda.
 	virtual ~Menu();
+
+	const Agenda& getAgenda() const {
+		return agenda_;
+	}
+
+	void setAgenda(const Agenda& agenda) {
+		agenda_ = agenda;
+	}
 };
 
 #endif /* MENU_H_ */

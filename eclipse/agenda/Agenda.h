@@ -36,10 +36,7 @@ public:
 	void setListaContactos(const std::list<Contacto>& listaContactos) {
 		listaContactos_ = listaContactos;
 	}
-	bool realizarCopia();
-	bool restaurarCopia (std::string nombre);
-	bool borrarCopia (std::string nombre);
-	bool listarCopia ();
+
 };
 
 

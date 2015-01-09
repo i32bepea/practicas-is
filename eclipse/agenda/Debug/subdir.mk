@@ -5,15 +5,21 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
 ../Agenda.cpp \
-../Contacto.cpp 
+../Contacto.cpp \
+../GestorCS.cpp \
+../Menu.cpp 
 
 OBJS += \
 ./Agenda.o \
-./Contacto.o 
+./Contacto.o \
+./GestorCS.o \
+./Menu.o 
 
 CPP_DEPS += \
 ./Agenda.d \
-./Contacto.d 
+./Contacto.d \
+./GestorCS.d \
+./Menu.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
