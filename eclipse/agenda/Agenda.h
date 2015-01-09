@@ -15,18 +15,20 @@ private:
 	std::list <Contacto> listaContactos_;
 
 public:
-	Agenda();
+	Agenda(); //El constructor, vuelca la lista de contactos de agenda.juda si existe.
 	virtual ~Agenda();
 
 
 	bool insertarContacto (const Contacto &c);
 	int buscarContacto (const std::string &apellidos);
-	Contacto * buscarContactoAux (const std::string &DNI,int * devuelto);
 	int borrarContacto (const std::string &DNI);
+	Contacto buscarContactoAux (const std::string &DNI,int * devuelto);
 	int modificarContacto (const std::string &DNI);
 	bool listarContactos();
 	bool listarFavoritos();
 	bool listarMasUsados();
+	void imprimirContacto (const Contacto &c);
+	void volcado(); //Vuelca la agenda al fichero agenda.juda
 
 	const std::list<Contacto>& getListaContactos() const {
 		return listaContactos_;
@@ -35,6 +37,8 @@ public:
 	void setListaContactos(const std::list<Contacto>& listaContactos) {
 		listaContactos_ = listaContactos;
 	}
+
 };
+
 
 #endif /* AGENDA_H_ */
