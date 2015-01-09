@@ -43,7 +43,7 @@
 
 
 
-bool Agenda::insertarContacto(const Contacto &c){
+bool Agenda::insertarContacto(const Contacto &c){ //Lo inserta, pero en la lista. Y ordena la lista.
 
 	if(c.getNombre()=="" || c.getApellidos()=="" || c.getDni()=="")
 			return false; //Comprobamos que los campos obligatorios han sido insertados.
