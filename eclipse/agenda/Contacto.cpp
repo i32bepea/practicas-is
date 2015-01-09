@@ -8,12 +8,12 @@
 /*Alvaro:
  *Termino Sobrecarga de flujo de entrada:
  *
- * 			-El switch dentro del metodo se recorre de manera automatica, de esta manera se controla
- * 			mas facilmente que el cliente no meta ningun valor incorrecto.
+ * 			-El switch dentro del metodo se recorre de manera automática, de esta manera se controla
+ * 			mas facilmente que el cliente no meta ningún valor incorrecto.
  *			-Los string del metodo se leen con 'getline' en vez de hacerlo directamente con
  *			el stream de entrada 'i' ya que no 'detecta' los \n.
- *			-Las opciones aunque se puedan poner tipo 'char' se ponen en string para evitar problemas
- *			de salto de lineas.
+ *			-Las opciones aunque se puedan poner tipo 'char' las pongo en string por la misma
+ *			razón de arriba.
  */
 
 #include "Contacto.h"
@@ -43,7 +43,9 @@ std::ostream &operator<<(std::ostream &o,const Contacto &c){
 	o<<"\t-DNI: "<<c.getDni()<<std::endl;
 	o<<"\t-Email: "<<c.getEmail()<<std::endl;
 	o<<"\t-Número veces usado: "<<c.getVecesUsado()<<std::endl;
-	o<<"\t-Favorito: "<<c.isFavorito()<<std::endl;
+	o<<"\t-Favorito: ";
+	c.isFavorito()=='0'?(o<<"Si"):(o<<"No");
+	o<<std::endl;
 
 	for(it0=c.getDireccion().begin();it0!=c.getDireccion().end();it0++)
 		o<<"\t-Direccion: "<<(*it0).provincia<<", "<<(*it0).ciudad<<", "<<(*it0).tipoCalle<<", "<<(*it0).calle<<", "<<(*it0).numero<<", "<<(*it0).CP<<std::endl;
@@ -82,7 +84,7 @@ std::istream &operator>>(std::istream &i,Contacto &c)
 			std::cout<<"\t-Introduzca el nombre del contacto (OBLIGATORIO): ";
 			std::getline(i,Nombre,'\n');
 
-			if(Nombre == "") {std::cout<<"\n##ERROR, no puede dejar en blanco un campo obligatorio\n"<<std::endl;}
+			if(Nombre == "") std::cout<<"\n##ERROR, no puede dejar en blanco un campo obligatorio\n"<<std::endl;
 
 			else{
 				c.setNombre(Nombre);
@@ -94,22 +96,26 @@ std::istream &operator>>(std::istream &i,Contacto &c)
 
 			std::cout<<"\t-Introduzca el apellido del contacto (OBLIGATORIO): ";
 			std::getline(i,Apellido,'\n');
-			c.setApellidos(Apellido);
 
 			if(Apellido == "")std::cout<<"\n##ERROR, no puede dejar en blanco un campo obligatorio\n"<<std::endl;
 
-			else opc++;
+			else{
+				opc++;
+				c.setApellidos(Apellido);
+			}
 			break;
 
 		case 3:
 
 			std::cout<<"\t-Introduzca el DNI del contacto (OBLIGATORIO): ";
 			std::getline(i,DNI,'\n');
-			c.setDni(DNI);
 
 			if(DNI == "")std::cout<<"\n##ERROR, no puede dejar en blanco un campo obligatorio\n"<<std::endl;
 
-			else opc++;
+			else{
+				opc++;
+				c.setDni(DNI);
+			}
 			break;
 
 		case 4:

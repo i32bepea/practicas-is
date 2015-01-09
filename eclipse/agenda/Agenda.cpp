@@ -403,6 +403,40 @@ int Agenda::modificarContacto (const std::string &DNI){
 return 1;
 }
 
+bool Agenda::listarContactos () {
+
+	if(listaContactos_.empty())
+		return false;
+
+	else {
+		for(std::list<Contacto>::iterator pos=listaContactos_.begin();pos!=listaContactos_.end();pos++){
+
+			std::cout << (*pos);
+		}
+
+		return true;
+	}
+}
+
+bool Agenda::listarFavoritos() {
+
+	if(listaContactos_.empty())
+			return false;
+
+	else {
+
+		for(std::list<Contacto>::iterator pos=listaContactos_.begin();pos!=listaContactos_.end();pos++){
+
+			if(pos->isFavorito()=='0') {
+
+				std::cout << (*pos);
+			}
+		}
+
+		return true;
+	}
+}
+
 void Agenda::volcado(){//Volcamos tod0 el contenido de la agenda a agenda.juda
 	//No hay que preocuparse por el contenido que tenga agenda.juda ya que este a sido volcado a la agenda mediante el contructor.
 

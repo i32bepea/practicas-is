@@ -1,10 +1,18 @@
-/* GestorCSFichero.cpp
+/*
+ * GestorCSFichero.cpp
  *
- *  Created on: 9/1/2015
- *      Author: cosmic0
+ *  Created on: 09/01/2015
+ *      Author: alvaro
  */
 
 #include "GestorCSFichero.h"
+#include <string>
+#include <cstdlib>
+#include <fstream>
+#include <iostream>
+#include "Agenda.h"
+#include "Contacto.h"
+
 
 bool GestorCSFichero::realizarCopia (){ //Realiza una copia de agenda.juda a /CS/fechaYhora.juda Para ello tiene que volcar los datos existentes de Agenda a agenda.juda
 
@@ -79,14 +87,3 @@ bool GestorCSFichero::listarCopia (){ // Borra la copia de seguridad indicada en
 	else
 		return true;
 }
-GestorCSFichero::GestorCSFichero() {
-	// TODO Auto-generated constructor stub
-
-}
-
-GestorCSFichero::~GestorCSFichero() {
-	// TODO Auto-generated destructor stub
-}
-
-
-

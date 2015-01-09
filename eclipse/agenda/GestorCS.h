@@ -9,6 +9,8 @@
 #ifndef GESTORCS_H_
 #define GESTORCS_H_
 
+#include <string>
+
 class GestorCS {
 
 private:
@@ -16,10 +18,10 @@ private:
 	std::string fichero_;
 
 public:
-	GestorCS();
-	virtual ~GestorCS();
+	GestorCS(){};
+	virtual ~GestorCS(){};
 
-	virtual bool realizarCopia(Agenda a) = 0;
+	virtual bool realizarCopia() = 0;
 	virtual bool restaurarCopia (std::string nombre) = 0;
 	virtual bool borrarCopia (std::string nombre) = 0;
 	virtual bool listarCopia () = 0;

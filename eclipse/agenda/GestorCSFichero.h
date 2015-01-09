@@ -1,19 +1,14 @@
 /*
- * GestorCS.h
+ * GestorCSFichero.h
  *
- *  Created on: 9/1/2015
- *      Author: cosmic0
+ *  Created on: 09/01/2015
+ *      Author: alvaro
  */
 
 #ifndef GESTORCSFICHERO_H_
 #define GESTORCSFICHERO_H_
 
-#include <string>
-#include <cstdlib>
-#include <fstream>
-#include <iostream>
-#include "Agenda.h"
-#include "Contacto.h"
+#include "GestorCS.h"
 
 class GestorCSFichero: public GestorCS {
 public:
@@ -23,8 +18,8 @@ public:
 	bool borrarCopia (std::string nombre);
 	bool listarCopia ();
 
-	GestorCSFichero();
-	virtual ~GestorCSFichero();
+	GestorCSFichero(){};
+	virtual ~GestorCSFichero(){};
 };
 
 #endif /* GESTORCSFICHERO_H_ */

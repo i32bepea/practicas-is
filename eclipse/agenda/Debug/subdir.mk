@@ -6,17 +6,23 @@
 CPP_SRCS += \
 ../Agenda.cpp \
 ../Contacto.cpp \
-../Main.cpp 
+../GestorCSFichero.cpp \
+../Main.cpp \
+../Menu.cpp 
 
 OBJS += \
 ./Agenda.o \
 ./Contacto.o \
-./Main.o 
+./GestorCSFichero.o \
+./Main.o \
+./Menu.o 
 
 CPP_DEPS += \
 ./Agenda.d \
 ./Contacto.d \
-./Main.d 
+./GestorCSFichero.d \
+./Main.d \
+./Menu.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
