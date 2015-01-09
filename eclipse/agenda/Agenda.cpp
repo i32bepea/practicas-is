@@ -403,6 +403,50 @@ int Agenda::modificarContacto (const std::string &DNI){
 return 1;
 }
 
+void Agenda::volcado(){
+	//Volcamos tod0 el contenido de la agenda a agenda.juda
+		//Primero comprobamos si existe agenda.juda
+
+		std:: ifstream f ("agenda.juda");
+			  if (f.is_open())
+			  {
+				  f.close();
+				  //Existe el fichero agenda.juda. Este caso es un poco más complicado, vamos a volvar los contactos de agenda.juda a la agenda actual,
+				  //para que queden ordenados y después volcar toda la agenda de manera normal.
+				  	  std::list<Contacto> aux; //Lista auxiliar donde volcaremos toda la agenda.juda
+
+				  std::ifstream fentrada("agenda.juda", std::ios::in | std::ios::binary); //Abrimos agenda.juda en modo binario
+
+				     fentrada.read(reinterpret_cast<char *>(&aux), sizeof(std::list<Contacto>)); //Lo escribimos en la lista auxiliar aux.
+
+				     fentrada.close(); //Cerramos
+
+				  //Ahora hay que ir volcando cada contacto de aux a la agenda. Para que la función de insertar los deje ordenados.
+
+				     for(std::list<Contacto>::iterator pos=aux.begin(); pos!=aux.end();pos++){ //Recorremos la lista
+
+				    	 	 insertarContacto(*pos); //Insertamos el contacto en la agenda.
+				     }
+				     //Ya tenemos la agenda definitiva ahora simplemente hay que crear un agenda.juda con los datos de esta.
+				     system("rm agenda.juda"); //Eliminamos el agenda.juda obsoleto.
+				     //No existe el fichero agenda.juda
+				     			  std::ofstream file ("agenda.juda", std::ios::out | std::ios::binary); //Lo creamos
+
+				     			   file.write(reinterpret_cast<char *>(&listaContactos_), sizeof(std::list<Contacto>)); //Y escribimos el contenido de la agenda
+
+				     			   file.close(); //Cerramos.
+			   }
+			  else{
+				  f.close();
+				     //No existe el fichero agenda.juda
+				     			  std::ofstream file ("agenda.juda", std::ios::out | std::ios::binary); //Lo creamos
+
+				     			   file.write(reinterpret_cast<char *>(&listaContactos_), sizeof(std::list<Contacto>)); //Y escribimos el contenido de la agenda
+
+				     			   file.close(); //Cerramos.
+			  }
+}
+
 Agenda::Agenda() {
 	// TODO Auto-generated constructor stub
 

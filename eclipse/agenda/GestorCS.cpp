@@ -10,49 +10,7 @@
 
 bool GestorCS::realizarCopia (Agenda a){ //Realiza una copia de agenda.juda a /CS/fechaYhora.juda Para ello tiene que volcar los datos existentes de Agenda a agenda.juda
 
-	//Volcamos tod0 el contenido de la agenda pasada por referencia a agenda.juda
-	//Primero comprobamos si existe agenda.juda
-
-	std:: ifstream f ("agenda.juda");
-		  if (f.is_open())
-		  {
-			  f.close();
-			  //Existe el fichero agenda.juda. Este caso es un poco más complicado, vamos a volvar los contactos de agenda.juda a la agenda actual,
-			  //para que queden ordenados y después volcar toda la agenda de manera normal.
-			  Agenda aux; //Agenda auxiliar donde volcaremos toda la agenda.juda
-
-			  std::ifstream fentrada("agenda.juda", std::ios::in | std::ios::binary); //Abrimos agenda.juda en modo binario
-
-			     fentrada.read(reinterpret_cast<char *>(&aux), sizeof(Agenda)); //Lo escribimos en agenda auxiliar. aux
-
-			     fentrada.close(); //Cerramos
-
-			  //Ahora hay que ir volcando cada contacto de aux a la agenda a. Para que la función de insertar los deje ordenados.
-			     std::list<Contacto> lista=aux.getListaContactos(); //Lista en la que guardamos la lista de contactos de aux.
-
-
-			     for(std::list<Contacto>::iterator pos=lista.begin(); pos!=lista.end();pos++){ //Recorremos la lista
-
-			    	 	 a.insertarContacto(*pos); //Insertamos el contacto en la agenda a.
-			     }
-			     //Ya tenemos la agenda definitiva en "a" ahora simplemente hay que crear un agenda.juda con los datos de "a".
-			     system("rm agenda.juda"); //Eliminamos el agenda.juda obsoleto.
-			     //No existe el fichero agenda.juda
-			     			  std::ofstream file ("agenda.juda", std::ios::out | std::ios::binary); //Lo creamos
-
-			     			   file.write(reinterpret_cast<char *>(&a), sizeof(Agenda)); //Y escribimos el contenido de la agenda
-
-			     			   file.close(); //Cerramos.
-		   }
-		  else{
-			  f.close();
-			  //No existe el fichero agenda.juda
-			  std::ofstream file ("agenda.juda", std::ios::out | std::ios::binary); //Lo creamos
-
-			   file.write(reinterpret_cast<char *>(&a), sizeof(Agenda)); //Y escribimos el contenido de la agenda
-
-			   file.close(); //Cerramos.
-		  }
+	a.volcado(); //Volcamos los datos de la agenda a el fichero agenda.juda para poder realizar la copia de seguridad.
 
 		  //PROCESO DE COPIA de seguridad de agenda.juda
 

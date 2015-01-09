@@ -28,6 +28,7 @@ public:
 	bool listarFavoritos();
 	bool listarMasUsados();
 	void imprimirContacto (const Contacto &c);
+	void volcado(); //Vuelca la agenda al fichero agenda.juda conservando los contactos preexistentes en agenda.juda
 
 	const std::list<Contacto>& getListaContactos() const {
 		return listaContactos_;
