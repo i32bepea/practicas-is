@@ -1,4 +1,6 @@
-Main.d: ../Main.cpp ../Agenda.h ../Contacto.h ../GestorCS.h
+Main.d: ../Main.cpp ../Menu.h ../Agenda.h ../Contacto.h ../GestorCS.h
+
+../Menu.h:
 
 ../Agenda.h:
 

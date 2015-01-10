@@ -17,6 +17,7 @@
  */
 
 #include "Contacto.h"
+#include <cstdio>
 
 Contacto::Contacto() {
 
@@ -44,13 +45,13 @@ std::ostream &operator<<(std::ostream &o,const Contacto &c){
 	o<<"\t-Email: "<<c.getEmail()<<std::endl;
 	o<<"\t-Número veces usado: "<<c.getVecesUsado()<<std::endl;
 	o<<"\t-Favorito: ";
-	c.isFavorito()=='0'?(o<<"Si"):(o<<"No");
+	c.isFavorito()=='1'?(o<<"Si"):(o<<"No");
 	o<<std::endl;
 
 	for(it0=c.getDireccion().begin();it0!=c.getDireccion().end();it0++)
-		o<<"\t-Direccion: "<<(*it0).provincia<<", "<<(*it0).ciudad<<", "<<(*it0).tipoCalle<<", "<<(*it0).calle<<", "<<(*it0).numero<<", "<<(*it0).CP<<std::endl;
+		o<<"\t-Direccion: "<<(*it0).provincia<<", "<<(*it0).ciudad<<", "<<(*it0).tipoCalle<<" "<<(*it0).calle<<", "<<(*it0).numero<<", "<<(*it0).CP<<std::endl;
 	for(it1=c.getRedesSociales().begin();it1!=c.getRedesSociales().end();it1++)
-		o<<"\t-Tipo de Red: "<<(*it1).redSocial<<" Usuario: "<<(*it1).usuario<<std::endl;
+		o<<"\t-Tipo de Red: "<<(*it1).redSocial<<"    -Usuario: "<<(*it1).usuario<<std::endl;
 	for(it2=c.getTelefonos().begin();it2!=c.getTelefonos().end();it2++)
 		o<<"\t-Teléfono: "<<(*it2)<<std::endl;
 
@@ -82,6 +83,7 @@ std::istream &operator>>(std::istream &i,Contacto &c)
 		case 1:
 
 			std::cout<<"\t-Introduzca el nombre del contacto (OBLIGATORIO): ";
+			getchar();
 			std::getline(i,Nombre,'\n');
 
 			if(Nombre == "") std::cout<<"\n##ERROR, no puede dejar en blanco un campo obligatorio\n"<<std::endl;
@@ -149,9 +151,12 @@ std::istream &operator>>(std::istream &i,Contacto &c)
 
 			if(direccOpc!="s" && direccOpc!="S" && direccOpc!="n" && direccOpc!="N") std::cout<<"\n##ERROR, opción inválida\n"<<std::endl;
 
-			else{
+			else {
 
 				while(direccOpc == "s" || direccOpc == "S"){
+
+
+
 					std::cout<<" \n\t-Introduzca los siguientes datos de la Direccion "<<std::endl;
 					std::cout<<"\t\t+Introduzca la provincia: ";
 					std::getline(i,direccAux.provincia,'\n');
@@ -172,8 +177,8 @@ std::istream &operator>>(std::istream &i,Contacto &c)
 					i>>direccAux.CP;
 
 					vectorDirecc.push_back(direccAux);
-
 					std::cout<<"\t-¿Quiere introducir otra dirección?(s/n): ";
+					getchar();
 					std::getline(i,direccOpc,'\n');
 
 				}

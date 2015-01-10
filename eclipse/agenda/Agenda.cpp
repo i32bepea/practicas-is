@@ -1,5 +1,15 @@
 /*
- * Agenda.cpp
+/home/alvaro/Escritorio/IS/practicas-is/eclipse/agenda/Debug
+/home/alvaro/Escritorio/IS/practicas-is/eclipse/agenda/Agenda.cpp
+/home/alvaro/Escritorio/IS/practicas-is/eclipse/agenda/Agenda.h
+/home/alvaro/Escritorio/IS/practicas-is/eclipse/agenda/Contacto.cpp
+/home/alvaro/Escritorio/IS/practicas-is/eclipse/agenda/Contacto.h
+/home/alvaro/Escritorio/IS/practicas-is/eclipse/agenda/GestorCS.h
+/home/alvaro/Escritorio/IS/practicas-is/eclipse/agenda/GestorCSFichero.cpp
+/home/alvaro/Escritorio/IS/practicas-is/eclipse/agenda/GestorCSFichero.h
+/home/alvaro/Escritorio/IS/practicas-is/eclipse/agenda/Main.cpp
+/home/alvaro/Escritorio/IS/practicas-is/eclipse/agenda/Menu.cpp
+/home/alvaro/Escritorio/IS/practicas-is/eclipse/agenda/Menu.h * Agenda.cpp
  *
  *  Created on: 14/12/2014
  *      Author: cosmic0
@@ -11,7 +21,6 @@
 #include <iostream>
 #include <cstdlib>
 #include <fstream>
-#include <ctime>
 
 
 
@@ -41,8 +50,6 @@
  * los fallos que daban al intentar compilar.
 */
 
-
-
 bool Agenda::insertarContacto(const Contacto &c){ //Lo inserta, pero en la lista. Y ordena la lista.
 
 	if(c.getNombre()=="" || c.getApellidos()=="" || c.getDni()=="")
@@ -54,25 +61,38 @@ bool Agenda::insertarContacto(const Contacto &c){ //Lo inserta, pero en la lista
 	if(!listaContactos_.empty()){
 		for(std::list<Contacto>::iterator pos=listaContactos_.begin(); pos!=listaContactos_.end()&&salir==0;pos++){
 
-			if(strcmp(c.getApellidos().c_str(),(*pos).getApellidos().c_str())>0){
+			if(strcmp(c.getApellidos().c_str(),(*pos).getApellidos().c_str()) < 0){
+
 				if(cont==0)
-					listaContactos_.insert(pos,c); //Lo insertamos el primero de la lista.
+					listaContactos_.push_front(c); //Lo insertamos el primero de la lista.
+
 				else
-					listaContactos_.insert(ant,c);
+					listaContactos_.insert(pos,c);
 				salir=1;
 			}
-			else{
-				ant=pos;
+
+			if(strcmp(c.getApellidos().c_str(),(*pos).getApellidos().c_str()) == 0){
+
+				if(pos == listaContactos_.end()){
+
+					listaContactos_.insert(pos,c);
+					salir = 1;
+				}
+
 
 			}
+
+			ant = pos;
 			cont++;
 		}
+
+		if(salir == 0) listaContactos_.push_back(c);
 
 	}
 
 	else{
 		listaContactos_.push_back(c);
-		}
+	}
 
 	return true;
 }
@@ -87,7 +107,7 @@ int Agenda::buscarContacto (const std::string &apellidos){
 
 	for(std::list<Contacto>::iterator pos=listaContactos_.begin();pos!=listaContactos_.end();pos++){
 		if(apellidos==pos->getApellidos()){
-			//std::cout<<*pos; Comentado al no estar hecha la salida.
+			std::cout<<*pos;
 			encontrado=1;
 		}
 	}
@@ -101,23 +121,20 @@ int Agenda::buscarContacto (const std::string &apellidos){
 Contacto Agenda::buscarContactoAux (const std::string &DNI,int * devuelto){
 //La misma función que buscarContacto con la diferencia de que busca por DNI,devuelve el contacto y no lo imprime.
 //Devuelve por referencia 0 si está vacía, 1 si lo ha encontrado y -1 si no existe.
-	int encontrado=0;
+	Contacto aux;
 	if(listaContactos_.empty()){
 		(*devuelto)=0;
 	}
 
 	for(std::list<Contacto>::iterator pos=listaContactos_.begin();pos!=listaContactos_.end();pos++){
 		if(DNI==pos->getDni()){
-
+			(*devuelto)=1;
 			return *pos;
-			encontrado=1;
 		}
 	}
 
-	if(encontrado==0)
-		(*devuelto)=1;
-	else
-		(*devuelto)=1;
+	*devuelto=0;
+	return aux;
 }
 
 int Agenda::borrarContacto (const std::string &DNI){
@@ -130,6 +147,7 @@ int Agenda::borrarContacto (const std::string &DNI){
 	}
 	for(std::list<Contacto>::iterator pos=listaContactos_.begin();pos!=listaContactos_.end();pos++){
 		if(DNI==pos->getDni()){
+			std::cout<<"encontrado\n";
 			listaContactos_.erase(pos);
 			encontrado=1;
 		}
@@ -145,7 +163,8 @@ int Agenda::borrarContacto (const std::string &DNI){
 int Agenda::modificarContacto (const std::string &DNI){
 //-1 significa que ha intentado borrar alguno de los campos obligatorios. 0 que no existe el contacto que se quiere modificar.
 	int devuelto;
-	Contacto contacto;//Puntero que contendrá la dirección del contacto;
+	std::string opcControl;
+	Contacto contacto;
 	contacto=buscarContactoAux(DNI,&devuelto);//Se busca el contacto y se guarda la dirección de memoria real, en c.
 	Contacto * c=&contacto;
 
@@ -164,14 +183,31 @@ int Agenda::modificarContacto (const std::string &DNI){
 
 	case 1:
 
-		borrarContacto (DNI);
-		//std::cin>>aux; Alvaro:Dejar comentado hasta que Dani termine la sobrecarga de flujo de entrada
-		if(insertarContacto (aux)==false)
-			std::cout<<"ERROR! Ha habido un error a la hora de introducir el contacto en la agenda";
+		do{
+			std::cout<<"¿Está seguro de que desea modificar el Contacto entero?, perderá los datos del Contacto guardado (s/n): ";
+			getchar();
+			std::getline(std::cin,opcControl,'\n');
+
+		}while(opcControl!="s" && opcControl!="S" && opcControl!="n" && opcControl!="N");
+
+		if(opcControl == "s" || opcControl == "S"){
+
+			borrarContacto (DNI);
+			std::cin>>aux;
+			if(insertarContacto (aux)==false)
+				std::cout<<"ERROR! Ha habido un error a la hora de introducir el contacto en la agenda";
+		}
 
 		break;
 
 	case 2: {
+
+		do{
+			std::cout<<"¿Está seguro de que desea modificar el parametro del contacto?, perderá el dato del Contacto guardado (s/n): ";
+			std::getline(std::cin,opcControl,'\n');
+		}while(opcControl!="s" && opcControl!="S" && opcControl!="n" && opcControl!="N");
+
+		if(opcControl == "s" || opcControl == "S"){
 
 		int salir=0;
 		while (salir==0){ //Menú de modificación de contacto por parámetros.
@@ -185,10 +221,11 @@ int Agenda::modificarContacto (const std::string &DNI){
 			switch(opt){
 
 			case 1:{
-
+				std::cin.clear();
 				std::string cadena;
 				std::cout<<"Introduzca el DNI:";
-				std::cin>>cadena;
+				getchar();
+				std::getline(std::cin,cadena,'\n');
 
 				if(cadena=="")//Comprueba que no ha dejado el campo vacio.
 					return -1; //El error tiene que ser mostrado por pantalla en el programa principal.
@@ -202,7 +239,7 @@ int Agenda::modificarContacto (const std::string &DNI){
 				std::string cadena;
 
 				std::cout<<"Introduzca el nombre:";
-				std::cin>>cadena;
+				std::getline(std::cin,cadena,'\n');
 
 				if(cadena=="")//Comprueba que no ha dejado el campo vacio.
 					return -1; //El error tiene que ser mostrado por pantalla en el programa principal.
@@ -216,7 +253,7 @@ int Agenda::modificarContacto (const std::string &DNI){
 				std::string cadena;
 
 				std::cout<<"Introduzca los apellidos:";
-				std::cin>>cadena;
+				std::getline(std::cin,cadena,'\n');
 
 				if(cadena=="")//Comprueba que no ha dejado el campo vacio.
 					return -1; //El error tiene que ser mostrado por pantalla en el programa principal.
@@ -253,19 +290,19 @@ int Agenda::modificarContacto (const std::string &DNI){
 				std::vector <Direccion> v=aux.getDireccion();
 				//Recogemos los datos de la dirección.
 				std::cout<<"Introduzca la calle:";
-				std::cin>>v[opt-1].calle;
+				std::getline(std::cin,v[opt-1].calle,'\n');
 				std::cout<<"Introduzca el número:";
 				std::cin>>v[opt-1].numero;
 				std::cout<<"Introduzca el código postal:";
 				std::cin>>v[opt-1].CP;
 				std::cout<<"Introduzca la ciudad:";
-				std::cin>>v[opt-1].ciudad;
+				std::getline(std::cin,v[opt-1].ciudad,'\n');
 				std::cout<<"Introduzca la provincia:";
-				std::cin>>v[opt-1].provincia;
+				std::getline(std::cin,v[opt-1].provincia,'\n');
 				std::cout<<"Introduzca el número:";
 				std::cin>>v[opt-1].numero;
 				std::cout<<"Introduzca el tipo de calle:";
-				std::cin>>v[opt-1].tipoCalle;
+				std::getline(std::cin,v[opt-1].tipoCalle,'\n');
 
 				(*c).setDireccion(v); //Asignamos el vector de direcciones al contacto real.
 
@@ -276,7 +313,7 @@ int Agenda::modificarContacto (const std::string &DNI){
 				std::string cadena;
 
 				std::cout<<"Introduzca el email:";
-				std::cin>>cadena;
+				std::getline(std::cin,cadena,'\n');
 
 				if(cadena=="")//Comprueba que no ha dejado el campo vacio.
 					return -1; //El error tiene que ser mostrado por pantalla en el programa principal.
@@ -311,9 +348,10 @@ int Agenda::modificarContacto (const std::string &DNI){
 				std::vector <Redes> v1=aux.getRedesSociales();
 				//Recogemos los datos de la red social.
 				std::cout<<"Introduzca la red social:";
-				std::cin>>v1[opt-1].redSocial;
+				std::getline(std::cin,v1[opt-1].redSocial,'\n');
 				std::cout<<"Introduzca el usuario:";
-				std::cin>>v1[opt-1].usuario;
+				std::getline(std::cin,v1[opt-1].usuario,'\n');
+
 
 				(*c).setRedesSociales(v1); //Asignamos el vector de direcciones al contacto real.
 
@@ -373,7 +411,7 @@ int Agenda::modificarContacto (const std::string &DNI){
 				std::vector <std::string> v2 = aux.getTelefonos();
 				//Recogemos los datos del número de teléfono.
 				std::cout<<"Introduzca el número de teléfono:";
-				std::cin>>v2[opt-1];
+				std::getline(std::cin,v2[opt-1],'\n');
 
 				(*c).setTelefonos(v2); //Asignamos el vector de teléfonos al contacto real.*/
 
@@ -392,6 +430,8 @@ int Agenda::modificarContacto (const std::string &DNI){
 			default:
 				std::cout<<"Opción incorrecta!";
 		}
+		}
+
 	}
 
 	break;}
@@ -405,43 +445,53 @@ return 1;
 
 bool Agenda::listarContactos () {
 
-	if(listaContactos_.empty())
-		return false;
+	if(listaContactos_.empty()){
+			return false;
+	}
 
 	else {
+
 		for(std::list<Contacto>::iterator pos=listaContactos_.begin();pos!=listaContactos_.end();pos++){
 
 			std::cout << (*pos);
+			//imprimirContacto(*pos);
 		}
-
-		return true;
+			return true;
 	}
 }
 
-bool Agenda::listarFavoritos() {
+int Agenda::listarFavoritos() {
+//Devuelve 0 si está vacía, -1 si no hay ningún cotacto favorito o 1 si por lo menos hay uno.
 
-	if(listaContactos_.empty())
-			return false;
+	int cont = 0;
 
-	else {
+	if(listaContactos_.empty()){
+				return 0;
+		}
 
-		for(std::list<Contacto>::iterator pos=listaContactos_.begin();pos!=listaContactos_.end();pos++){
+		else {
 
-			if(pos->isFavorito()=='0') {
+			for(std::list<Contacto>::iterator pos=listaContactos_.begin();pos!=listaContactos_.end();pos++){
 
-				std::cout << (*pos);
+				if(pos->isFavorito()==true) {
+					cont++;
+					std::cout << (*pos);
+					//imprimirContacto(*pos);
+
+				}
 			}
+
+		if(cont == 0)
+			return -1;
+
+		else
+			return 1;
 		}
-
-		return true;
-	}
 }
-
 void Agenda::volcado(){//Volcamos tod0 el contenido de la agenda a agenda.juda
 	//No hay que preocuparse por el contenido que tenga agenda.juda ya que este a sido volcado a la agenda mediante el contructor.
 
 	//Primero comprobamos si existe agenda.juda
-
 	std:: ifstream f ("agenda.juda");
 	if (f.is_open()){
 		f.close();
@@ -455,15 +505,53 @@ void Agenda::volcado(){//Volcamos tod0 el contenido de la agenda a agenda.juda
 		//No existe por lo que no hay que eliminarla.
 	}
 
-	std::ofstream file ("agenda.juda", std::ios::out | std::ios::binary); //Lo creamos
-	std::list<Contacto> aux=getListaContactos(); //Lista auxiliar donde guardaremos los contactos de la agenda
+	std::vector <Direccion>::const_iterator it0;
+	std::vector <Redes>::const_iterator it1;
+	std::vector <std::string>::const_iterator it2;
 
-	file.write(reinterpret_cast<char *>(&aux), sizeof(std::list<Contacto>)); //Y escribimos el contenido de la lista aux a agenda.juda.
+	std::ofstream file ("agenda.juda"); //Lo creamos
+	std::list<Contacto> aux=getListaContactos(); //Lista auxiliar donde guardaremos los contactos de la agenda
+	Contacto c;
+
+	file<<getListaContactos().size()<<std::endl;;
+
+	for(std::list<Contacto>::iterator pos=aux.begin();pos!=aux.end();pos++){
+
+		(*pos);
+		file<<(*pos).getNombre()<<std::endl;
+		file<<(*pos).getApellidos()<<std::endl;
+		file<<(*pos).getDni()<<std::endl;
+		file<<(*pos).getEmail()<<std::endl;
+		file<<(*pos).getVecesUsado()<<std::endl;
+		file<<(*pos).isFavorito()<<std::endl;
+
+		file<<(*pos).getDireccion().size()<<"~";
+
+		for(it0=(*pos).getDireccion().begin();it0!=(*pos).getDireccion().end();it0++)
+			file<<(*it0).provincia<<"~"<<(*it0).ciudad<<"~"<<(*it0).tipoCalle<<"~"<<(*it0).calle<<"~"<<(*it0).numero<<"~"<<(*it0).CP<<"~";
+
+		file<<std::endl;
+
+		file<<(*pos).getRedesSociales().size()<<"~";
+
+		for(it1=(*pos).getRedesSociales().begin();it1!=(*pos).getRedesSociales().end();it1++)
+			file<<it1->redSocial<<"~"<<it1->usuario<<"~";
+
+		file<<std::endl;
+
+		file<<(*pos).getTelefonos().size()<<"~";
+
+		for(it2=(*pos).getTelefonos().begin();it2!=(*pos).getTelefonos().end();it2++)
+			file<<(*it2)<<"~";
+
+		file<<std::endl<<std::endl;
+
+
+
+	}
 
 	file.close(); //Cerramos.
-
 }
-
 Agenda::Agenda() { //El constructor volcará tod0 el contenido de agenda.juda si es que existe.
 	//Primero comprobamos si existe agenda.juda
 
@@ -473,10 +561,103 @@ Agenda::Agenda() { //El constructor volcará tod0 el contenido de agenda.juda si
 
 	f.close();
 
-	std::list<Contacto> aux; //Lista auxiliar donde guardaremos los contactos de agenda.juda
-	std::ifstream fentrada("agenda.juda", std::ios::in | std::ios::binary); //abrimos agenda.juda
+	std::string Nombre,Apellido,DNI,Email,Telefono,Favorito,VecesUsado,Numero,CP,Size;
 
-	fentrada.read(reinterpret_cast<char *>(&aux), sizeof(std::list<Contacto>)); //leemos la lista y la guardamos en aux.
+	int sizeList, sizeVdirecc, sizeVredes, sizeVtlf;
+
+	struct Direccion direccAux;
+	struct Redes redAux;
+	std::vector <Direccion> vectorDirecc;
+	std::vector <Redes> vectorRedes;
+	std::vector <std::string> vectorTlf;
+
+	std::list<Contacto> aux; //Lista auxiliar donde guardaremos los contactos de agenda.juda
+	Contacto c;
+
+	std::ifstream fentrada("agenda.juda"); //abrimos agenda.juda
+
+	std::getline(fentrada,Size,'\n');
+	sizeList = atoi(Size.c_str());     //Número de contactos en la Agenda
+
+	while(sizeList != 0){
+
+		sizeList--;
+
+		std::getline(fentrada,Nombre,'\n');
+		c.setNombre(Nombre);
+		std::getline(fentrada,Apellido,'\n');
+		c.setApellidos(Apellido);
+		std::getline(fentrada,DNI,'\n');
+		c.setDni(DNI);
+		std::getline(fentrada,Email,'\n');
+		c.setEmail(Email);
+		fentrada.ignore();
+		std::getline(fentrada,VecesUsado,'\n');
+		c.setVecesUsado(atoi(VecesUsado.c_str()));
+		fentrada.ignore();
+		std::getline(fentrada,Favorito,'\n');
+		c.isFavorito()=='0'?(c.setFavorito(false)):(c.setFavorito(true));
+
+		std::getline(fentrada,Size,'~');
+		int sizeVdirecc = atoi(Size.c_str()); //Número de Direcciones del contacto
+
+		while(sizeVdirecc != 0){
+
+			sizeVdirecc--;
+
+			std::getline(fentrada,direccAux.provincia,'~');
+			std::getline(fentrada,direccAux.ciudad,'~');
+			std::getline(fentrada,direccAux.tipoCalle,'~');
+			std::getline(fentrada,direccAux.calle,'~');
+			fentrada.ignore();
+			std::getline(fentrada,Numero,'~');
+			fentrada.ignore();
+			std::getline(fentrada,CP,'~');
+			fentrada.ignore();
+
+			direccAux.numero = atoi(Numero.c_str());
+			direccAux.CP = atoi(CP.c_str());
+
+			vectorDirecc.push_back(direccAux);
+
+		}
+
+		c.setDireccion(vectorDirecc);
+
+		std::getline(fentrada,Size,'~');
+		int sizeVredes = atoi(Size.c_str()); //Número de Redes Sociales del contacto
+
+		while(sizeVredes != 0){
+
+			sizeVredes--;
+
+			std::getline(fentrada,redAux.redSocial,'~');
+			std::getline(fentrada,redAux.usuario,'~');
+
+			vectorRedes.push_back(redAux);
+
+
+		}
+
+		c.setRedesSociales(vectorRedes);
+
+		std::getline(fentrada,Size,'~');
+		int sizeVtlf = atoi(Size.c_str()); //Número de telefonos del contacto
+
+		while(sizeVtlf != 0){
+
+			sizeVtlf--;
+			std::getline(fentrada,Telefono,'~');
+			vectorTlf.push_back(Telefono);
+
+		}
+
+		c.setTelefonos(vectorTlf);
+
+		aux.push_back(c);
+
+
+	}
 
 	setListaContactos(aux); //Volcamos la lista a la agenda.
 
@@ -492,5 +673,3 @@ Agenda::Agenda() { //El constructor volcará tod0 el contenido de agenda.juda si
 Agenda::~Agenda() {
 
 }
-
-

@@ -14,12 +14,11 @@
 class Agenda {
 private:
 	std::list <Contacto> listaContactos_;
-	GestorCS *gestor_;
+	GestorCS * gestor_;
 
 public:
 	Agenda(); //El constructor, vuelca la lista de contactos de agenda.juda si existe.
 	virtual ~Agenda();
-
 
 	bool insertarContacto (const Contacto &c);
 	int buscarContacto (const std::string &apellidos);
@@ -27,9 +26,7 @@ public:
 	Contacto buscarContactoAux (const std::string &DNI,int * devuelto);
 	int modificarContacto (const std::string &DNI);
 	bool listarContactos();
-	bool listarFavoritos();
-	bool listarMasUsados();
-	void imprimirContacto (const Contacto &c);
+	int listarFavoritos();
 	void volcado(); //Vuelca la agenda al fichero agenda.juda
 
 	const std::list<Contacto>& getListaContactos() const {
@@ -38,6 +35,14 @@ public:
 
 	void setListaContactos(const std::list<Contacto>& listaContactos) {
 		listaContactos_ = listaContactos;
+	}
+
+	GestorCS* getGestor(){
+		return gestor_;
+	}
+
+	void setGestor(GestorCS* gestor) {
+		gestor_ = gestor;
 	}
 };
 

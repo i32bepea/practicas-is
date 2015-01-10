@@ -18,7 +18,7 @@ public:
 	void insertarContacto(); //Se tiene que realizar un cin para rellenar los datos y pasarlo a la función insertarContacto.
 	void buscarContacto(); //Pedirle que introduzca los apellidos del contacto y llamar a la función buscarContacto de agenda.
 	void borrarContacto(); //Pide por pantalla los apellidos, se muestran los contactos encontrados con buscarContacto, y se llama a la función borrarContacto de agenda habiendole pedido antes que introduzca el DNI.
-	void mofificarContacto(); //Llama a la función de modificarContacto de agenda.
+	void modificarContacto(); //Llama a la función de modificarContacto de agenda.
 	void listar(); //Tiene que listar todos los contactos y dar la posibilidad de ir hacia atrás.
 	void seguridad(); //Tiene que mostrar el menú de seguridad y llamar a las respectivas funciones.
 	void mostrarMenu(); //Esta función muestra el menú.
