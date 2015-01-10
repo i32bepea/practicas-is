@@ -10,18 +10,16 @@
 #include "Contacto.h"
 #include "GestorCS.h"
 #include "GestorCSFichero.h"
-
 #include <list>
 
 class Agenda {
 private:
 	std::list <Contacto> listaContactos_;
-	GestorCS *gestor_;
+	GestorCS * gestor_;
 
 public:
 	Agenda(); //El constructor, vuelca la lista de contactos de agenda.juda si existe.
 	virtual ~Agenda();
-
 
 	bool insertarContacto (const Contacto &c);
 	int buscarContacto (const std::string &apellidos);
@@ -29,11 +27,9 @@ public:
 	Contacto buscarContactoAux (const std::string &DNI,int * devuelto);
 	int modificarContacto (const std::string &DNI);
 	bool listarContactos();
-	bool listarFavoritos();
-	bool listarMasUsados();
-	void imprimirContacto (const Contacto &c);
+	int listarFavoritos();
 	void volcado(); //Vuelca la agenda al fichero agenda.juda
-
+	void leerAgendaJuda();
 	const std::list<Contacto>& getListaContactos() const {
 		return listaContactos_;
 	}
@@ -42,7 +38,7 @@ public:
 		listaContactos_ = listaContactos;
 	}
 
-	GestorCS* getGestor() {
+	GestorCS* getGestor(){
 		return gestor_;
 	}
 
