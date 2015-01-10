@@ -157,7 +157,7 @@ int Agenda::modificarContacto (const std::string &DNI){
 	Contacto aux;
 
 	std::cout<<"1. Modificar contacto entero.\n2.Modificar por parámetros.\nIntroduzca el número de la opción deseada:";
-	std::cin<<opt;
+	std::cin>>opt;
 
 	switch(opt){
 
@@ -404,55 +404,90 @@ int Agenda::modificarContacto (const std::string &DNI){
 return 1;
 }
 
+
+bool Agenda::listarContactos () {
+
+	if(listaContactos_.empty())
+		return false;
+
+	else {
+		for(std::list<Contacto>::iterator pos=listaContactos_.begin();pos!=listaContactos_.end();pos++){
+
+			std::cout << (*pos);
+		}
+
+		return true;
+	}
+}
+
+bool Agenda::listarFavoritos() {
+
+	if(listaContactos_.empty())
+			return false;
+
+	else {
+
+		for(std::list<Contacto>::iterator pos=listaContactos_.begin();pos!=listaContactos_.end();pos++){
+
+			if(pos->isFavorito()=='0') {
+
+				std::cout << (*pos);
+			}
+		}
+
+		return true;
+	}
+}
+
 void Agenda::volcado(){//Volcamos tod0 el contenido de la agenda a agenda.juda
 	//No hay que preocuparse por el contenido que tenga agenda.juda ya que este a sido volcado a la agenda mediante el contructor.
 
 	//Primero comprobamos si existe agenda.juda
 
 	std:: ifstream f ("agenda.juda");
-		  if (f.is_open())
-		  {
-			  f.close();
-			  //Existe la agenda
-			  system("rm agenda.juda"); //Eliminamos agenda.juda
+	if (f.is_open()){
+		f.close();
+		//Existe la agenda
+		system("rm agenda.juda"); //Eliminamos agenda.juda
+	}
 
-		   }
-		  else{
-			  f.close();
-			  //No existe por lo que no hay que eliminarla.
-		  }
+	else{
 
-		  std::ofstream file ("agenda.juda", std::ios::out | std::ios::binary); //Lo creamos
-		  std::list<Contacto> aux=getListaContactos(); //Lista auxiliar donde guardaremos los contactos de la agenda
+		f.close();
+		//No existe por lo que no hay que eliminarla.
+	}
 
-		  file.write(reinterpret_cast<char *>(&aux), sizeof(std::list<Contacto>)); //Y escribimos el contenido de la lista aux a agenda.juda.
+	std::ofstream file ("agenda.juda", std::ios::out | std::ios::binary); //Lo creamos
+	std::list<Contacto> aux=getListaContactos(); //Lista auxiliar donde guardaremos los contactos de la agenda
 
-		  file.close(); //Cerramos.
+	file.write(reinterpret_cast<char *>(&aux), sizeof(std::list<Contacto>)); //Y escribimos el contenido de la lista aux a agenda.juda.
+
+	file.close(); //Cerramos.
 
 }
 
 Agenda::Agenda() { //El constructor volcará tod0 el contenido de agenda.juda si es que existe.
 	//Primero comprobamos si existe agenda.juda
 
-			std:: ifstream f ("agenda.juda");
-				  if (f.is_open())
-				  {
-					  f.close();
+	std:: ifstream f ("agenda.juda");
 
-					  	  std::list<Contacto> aux; //Lista auxiliar donde guardaremos los contactos de agenda.juda
+	if (f.is_open()){
 
-					  std::ifstream fentrada("agenda.juda", std::ios::in | std::ios::binary); //abrimos agenda.juda
+	f.close();
 
-					     fentrada.read(reinterpret_cast<char *>(&aux), sizeof(std::list<Contacto>)); //leemos la lista y la guardamos en aux.
+	std::list<Contacto> aux; //Lista auxiliar donde guardaremos los contactos de agenda.juda
+	std::ifstream fentrada("agenda.juda", std::ios::in | std::ios::binary); //abrimos agenda.juda
 
-					     setListaContactos(aux); //Volcamos la lista a la agenda.
+	fentrada.read(reinterpret_cast<char *>(&aux), sizeof(std::list<Contacto>)); //leemos la lista y la guardamos en aux.
 
-					     fentrada.close(); //Cerramos
-				   }
-				  else{
-					  f.close();
-					     //No existe el fichero agenda.juda No se hace nada, ya que no hay datos que volcar.
-				  }
+	setListaContactos(aux); //Volcamos la lista a la agenda.
+
+	fentrada.close(); //Cerramos
+	}
+
+	else
+		f.close();
+	//No existe el fichero agenda.juda No se hace nada, ya que no hay datos que volcar.
 
 }
 

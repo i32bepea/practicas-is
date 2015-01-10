@@ -8,11 +8,15 @@
 #ifndef AGENDA_H_
 #define AGENDA_H_
 #include "Contacto.h"
+#include "GestorCS.h"
+#include "GestorCSFichero.h"
+
 #include <list>
 
 class Agenda {
 private:
 	std::list <Contacto> listaContactos_;
+	GestorCS *gestor_;
 
 public:
 	Agenda(); //El constructor, vuelca la lista de contactos de agenda.juda si existe.
@@ -38,6 +42,13 @@ public:
 		listaContactos_ = listaContactos;
 	}
 
+	GestorCS* getGestor() {
+		return gestor_;
+	}
+
+	void setGestor(GestorCS* gestor) {
+		gestor_ = gestor;
+	}
 };
 
 

@@ -6,19 +6,22 @@
 CPP_SRCS += \
 ../Agenda.cpp \
 ../Contacto.cpp \
-../GestorCS.cpp \
+../GestorCSFichero.cpp \
+../Main.cpp \
 ../Menu.cpp 
 
 OBJS += \
 ./Agenda.o \
 ./Contacto.o \
-./GestorCS.o \
+./GestorCSFichero.o \
+./Main.o \
 ./Menu.o 
 
 CPP_DEPS += \
 ./Agenda.d \
 ./Contacto.d \
-./GestorCS.d \
+./GestorCSFichero.d \
+./Main.d \
 ./Menu.d 
 
 
