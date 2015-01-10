@@ -12,7 +12,16 @@ void Menu::insertarContacto() {
 	a_.insertarContacto(aux);
 }
 
+void Menu::buscarContacto() {
 
+	Contacto aux;
+	Agenda a_;
+
+
+
+
+
+}
 
 
 
