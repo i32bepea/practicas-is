@@ -157,7 +157,7 @@ std::istream &operator>>(std::istream &i,Contacto &c)
 
 
 
-					std::cout<<" \n\t-Introduzca los siguientes datos de la Direccion "<<std::endl;
+					std::cout<<" \n\t-Introduzca los siguientes datos de la Dirección "<<std::endl;
 					std::cout<<"\t\t+Introduzca la provincia: ";
 					std::getline(i,direccAux.provincia,'\n');
 					std::cout<<"\t\t+Introduzca la ciudad: ";
