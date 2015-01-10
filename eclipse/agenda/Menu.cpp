@@ -29,7 +29,81 @@ void Menu::salir(){
 	agenda_.volcado(); //Vuelca el contenido de la agenda a agenda.juda
 
 }
+void Menu::seguridad(){
 
+	int salir=0;
+	GestorCS * gestor= agenda_.getGestor();
+	GestorCSFichero gestorF;
+	gestor=&gestorF;
+
+	while(salir==0){
+
+		std::cout<<"\t+1. Realizar copia de seguridad.\n\t+2. Restaurar copia de seguridad.\n\t+3. Borrar copia de seguridad.\n\t+4. Listar copias de seguridad\n\t+5. Salir."<<std::endl;
+		std::cout<<"\t-Elija una opción:";
+
+		int opt;
+		std::cin>>opt;
+
+		switch(opt){
+
+		case 1:{
+
+				if((*gestor).realizarCopia()==true)
+					std::cout<<"¡Copia realizada con éxito!"<<std::endl;
+				else
+					std::cout<<"\n¡Error al realizar la copia de seguridad!"<<std::endl;
+
+		break;}
+		case 2:{
+				if((*gestor).listarCopia()==false)
+					std::cout<<"\n¡Error al listar las copias de seguridad!";
+				else{
+					std::cout<<"\nIntroduzca el nombre incluida la extensión, de la copia de seguridad que desea restaurar.";
+					std::string cadena;
+					std::getline(std::cin,cadena,'\n');
+
+						if((*gestor).restaurarCopia(cadena)==false)
+							std::cout<<"¡Error al intentar restaurar la copia de seguridad!";
+						else
+							std::cout<<"\n¡Copia de seguridad restaurada satisfactoriamente!";
+				}
+
+
+		break;}
+		case 3:{
+			if((*gestor).listarCopia()==false)
+				std::cout<<"\n¡Error al listar las copias de seguridad!";
+			else{
+				std::cout<<"\nIntroduzca el nombre incluida la extensión, de la copia de seguridad que desea borrar.";
+				std::string cadena;
+				std::getline(std::cin,cadena,'\n');
+
+					if((*gestor).borrarCopia(cadena)==false)
+						std::cout<<"¡Error al intentar borrar la copia de seguridad!";
+					else
+						std::cout<<"\n¡Copia de seguridad borrada satisfactoriamente!";
+			}
+
+
+		break;}
+		case 4:{
+
+			if((*gestor).listarCopia()==false)
+				std::cout<<"\n¡Error al listar las copias de seguridad!";
+
+		break;}
+		case 5:{
+				salir=1;
+
+		break;}
+
+		default:
+			std::cout<<"Opción incorrecta!";
+		}
+
+	}
+
+}
 
 void Menu::insertarContacto() {
 

@@ -1,4 +1,5 @@
-Menu.d: ../Menu.cpp ../Menu.h ../Agenda.h ../Contacto.h ../GestorCS.h
+Menu.d: ../Menu.cpp ../Menu.h ../Agenda.h ../Contacto.h ../GestorCS.h \
+ ../GestorCSFichero.h
 
 ../Menu.h:
 
@@ -7,3 +8,5 @@ Menu.d: ../Menu.cpp ../Menu.h ../Agenda.h ../Contacto.h ../GestorCS.h
 ../Contacto.h:
 
 ../GestorCS.h:
+
+../GestorCSFichero.h:

@@ -17,7 +17,8 @@
 bool GestorCSFichero::realizarCopia (){ //Realiza una copia de agenda.juda a /CS/fechaYhora.juda Para ello tiene que volcar los datos existentes de Agenda a agenda.juda
 
 	//Volcamos los datos de la agenda a el fichero agenda.juda para poder realizar la copia de seguridad.
-		  	  	 //PROCESO DE COPIA de seguridad de agenda.juda
+	//PROCESO DE COPIA de seguridad de agenda.juda
+
 	system("mkdir CS");
 
 	time_t tiempo = time(0);
@@ -26,7 +27,7 @@ bool GestorCSFichero::realizarCopia (){ //Realiza una copia de agenda.juda a /CS
     strftime(salida,128,"%d.%m.%y-%H:%M:%S",tlocal);
 
     std::string output(salida);
-    std::string cadena="cp agenda.juda /CS/" + output + ".juda";
+    std::string cadena="cp agenda.juda ./CS/" + output + ".juda";
 
 	if(system(cadena.c_str())==-1){//Error al ejecutar la orden
 		return false;
@@ -38,7 +39,7 @@ bool GestorCSFichero::realizarCopia (){ //Realiza una copia de agenda.juda a /CS
 
 bool GestorCSFichero::restaurarCopia (std::string nombre){ // Restaura la copia de seguridad indicada en string nombre, tiene que venir con la extensión, y las comprobaciones de que exista las hace la función.
 
-	std::string cadena="/CS/" + nombre;
+	std::string cadena="./CS/" + nombre;
 	std:: ifstream f (cadena.c_str());
 	if (f.is_open()){
 
@@ -62,7 +63,7 @@ bool GestorCSFichero::restaurarCopia (std::string nombre){ // Restaura la copia 
 }
 
 bool GestorCSFichero::borrarCopia (std::string nombre){ // Borra la copia de seguridad indicada en string nombre, tiene que venir con la extensión, y las comprobaciones de que exista las hace la función.
-	std::string cadena="/CS/" + nombre;
+	std::string cadena="./CS/" + nombre;
 	std:: ifstream f (cadena.c_str());
 	if (f.is_open()){
 

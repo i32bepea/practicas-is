@@ -9,6 +9,7 @@
 #define AGENDA_H_
 #include "Contacto.h"
 #include "GestorCS.h"
+#include "GestorCSFichero.h"
 #include <list>
 
 class Agenda {

@@ -1,4 +1,5 @@
-Main.d: ../Main.cpp ../Menu.h ../Agenda.h ../Contacto.h ../GestorCS.h
+Main.d: ../Main.cpp ../Menu.h ../Agenda.h ../Contacto.h ../GestorCS.h \
+ ../GestorCSFichero.h
 
 ../Menu.h:
 
@@ -7,3 +8,5 @@ Main.d: ../Main.cpp ../Menu.h ../Agenda.h ../Contacto.h ../GestorCS.h
 ../Contacto.h:
 
 ../GestorCS.h:
+
+../GestorCSFichero.h:

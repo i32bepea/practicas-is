@@ -46,6 +46,16 @@ int main(){
 			menuPrincipal.listar();
 			break;
 
+		case 6:
+
+			menuPrincipal.seguridad();
+			break;
+
+		case 7:
+
+			menuPrincipal.salir();
+			break;
+
 		default:
 			break;
 

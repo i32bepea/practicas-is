@@ -488,44 +488,52 @@ int Agenda::listarFavoritos() {
 			return 1;
 		}
 }
-void Agenda::volcado(){//Volcamos tod0 el contenido de la agenda a agenda.juda
-					   //No hay que preocuparse por el contenido que tenga agenda.juda ya que este a sido volcado a la agenda mediante el contructor.
 
-	//Primero comprobamos si existe agenda.juda
+//Volcamos todo el contenido de la agenda a agenda.juda.
+//No hay que preocuparse por el contenido que tenga agenda.juda ya que la lista se mantiene actualizada.
+
+void Agenda::volcado(){
+
+	//Primero comprobamos si existe agenda.juda, abrimos fichero binario.
 
 	std:: ifstream f ("agenda.juda", std::ios::binary);
+
 	if (f.is_open()){
 		f.close();
-		//Existe la agenda
-		system("rm agenda.juda"); //Eliminamos agenda.juda
+		system("rm agenda.juda"); //Eliminamos agenda.juda si esta existe.
 	}
 
 	else{
 
-		f.close();
-		//No existe por lo que no hay que eliminarla.
+		f.close();//No existe por lo que no hay que eliminarla.
 	}
 
 	std::vector <Direccion>::const_iterator it0;
 	std::vector <Redes>::const_iterator it1;
 	std::vector <std::string>::const_iterator it2;
 
-	std::ofstream file ("agenda.juda", std::ios::binary); //La creamos
+	std::ofstream file ("agenda.juda", std::ios::binary); //Creamos fichero.
 
-	std::list<Contacto> aux=getListaContactos(); //Lista auxiliar donde guardaremos los contactos de la agenda
+	std::list<Contacto> auxLista = getListaContactos(); //Lista auxiliar donde guardaremos los contactos de la agenda.
+
 	Contacto c;
-	int Size;
-	bool Fav;
-	long cp;
 
-	Size = getListaContactos().size();
+	int size; //Auxiliar donde se guardarán los enteros del contacto, asi como el tamaño de lista y vectores.
+	bool fav; //Auxiliar para boolean.
+	long cp;  //Auxiliar para long.
 
-	file.write ((char*)&Size, sizeof(int));
+	size = getListaContactos().size();
 
-	for(std::list<Contacto>::iterator pos=aux.begin();pos!=aux.end();pos++){
+	//Escribimos el número de Contactos al principio del fichero binario, para poder leerlo despues y usarlo en el bucle
+
+	file.write ((char*)&size, sizeof(int));
+
+	for(std::list<Contacto>::iterator pos=auxLista.begin();pos!=auxLista.end();pos++){
 
 		c = *pos;
 		char cad[200];
+
+		//Los string los pasamos a tipo char para poder copiarlos en el fichero Binario.
 
 		strcpy(cad,c.getNombre().c_str());
 		file.write ((char*) cad, 200*sizeof (char));
@@ -536,22 +544,16 @@ void Agenda::volcado(){//Volcamos tod0 el contenido de la agenda a agenda.juda
 		strcpy(cad,c.getEmail().c_str());
 		file.write ((char*) cad, 200*sizeof (char));
 
-		Size = c.getVecesUsado();
-		file.write ((char*) &Size, sizeof (int));
+		size = c.getVecesUsado();
+		file.write ((char*) &size, sizeof (int));
 
-		Fav = c.isFavorito();
-		file.write ((char*) &Fav, sizeof (bool));
+		fav = c.isFavorito();
+		file.write ((char*) &fav, sizeof (bool));
 
-		/*file<<(*pos).getNombre()<<std::endl;
-		file<<(*pos).getApellidos()<<std::endl;
-		file<<(*pos).getDni()<<std::endl;
-		file<<(*pos).getEmail()<<std::endl;
-		file<<(*pos).getVecesUsado()<<std::endl;
-		file<<(*pos).isFavorito()<<std::endl;*/
+		//Escribimos tamaño del vector Dirección
 
-		Size = c.getDireccion().size();
-		file.write ((char*) &Size, sizeof(int));
-		//file<<(*pos).getDireccion().size()<<"~";
+		size = c.getDireccion().size();
+		file.write ((char*) &size, sizeof(int));
 
 		for(it0=c.getDireccion().begin();it0!=c.getDireccion().end();it0++){
 
@@ -564,22 +566,18 @@ void Agenda::volcado(){//Volcamos tod0 el contenido de la agenda a agenda.juda
 			strcpy(cad,it0->calle.c_str());
 			file.write ((char*) cad, 200*sizeof (char));
 
-			Size = it0->numero;
-			file.write ((char*) &Size, sizeof (int));
+			size = it0->numero;
+			file.write ((char*) &size, sizeof (int));
 
 			cp = it0->CP;
 			file.write ((char*) &cp, sizeof (long));
-
-			//file<<(*it0).provincia<<"~"<<(*it0).ciudad<<"~"<<(*it0).tipoCalle<<"~"<<(*it0).calle<<"~"<<(*it0).numero<<"~"<<(*it0).CP<<"~";
 		}
 
-		//file<<std::endl;
+		size = c.getRedesSociales().size();
 
-		Size = c.getRedesSociales().size();
-		file.write ((char*) &Size, sizeof(int));
+		//Escribimos el tamaño del vector Redes Sociales.
 
-
-		//file<<(*pos).getRedesSociales().size()<<"~";
+		file.write ((char*) &size, sizeof(int));
 
 		for(it1=c.getRedesSociales().begin();it1!=c.getRedesSociales().end();it1++){
 
@@ -587,25 +585,21 @@ void Agenda::volcado(){//Volcamos tod0 el contenido de la agenda a agenda.juda
 			file.write ((char*) cad, 200*sizeof (char));
 			strcpy(cad,it1->usuario.c_str());
 			file.write ((char*) cad, 200*sizeof (char));
-
-			//file<<it1->redSocial<<"~"<<it1->usuario<<"~";
 		}
 
-		//file<<std::endl;
+		size = c.getTelefonos().size();
 
-		Size = c.getTelefonos().size();
-		file.write ((char*) &Size, sizeof(int));
+		//Escribimos el tamaño del vector Telefono.
 
-		//file<<(*pos).getTelefonos().size()<<"~";
+		file.write ((char*) &size, sizeof(int));
+
+
 
 		for(it2=c.getTelefonos().begin();it2!=c.getTelefonos().end();it2++){
 
 			strcpy(cad,(*it2).c_str());
 			file.write ((char*)cad , 200*sizeof (char));
-
-			//file<<(*it2)<<"~";
 		}
-		//file<<std::endl<<std::endl;
 
 
 
@@ -613,186 +607,170 @@ void Agenda::volcado(){//Volcamos tod0 el contenido de la agenda a agenda.juda
 
 	file.close(); //Cerramos.
 }
-Agenda::Agenda() { //El constructor volcará tod0 el contenido de agenda.juda si es que existe.
+
+//El constructor volcará todo el contenido de agenda.juda si es que existe.
+
+Agenda::Agenda() {
+
 	//Primero comprobamos si existe agenda.juda
 
 	std:: ifstream f ("agenda.juda", std::ios::binary);
 
 	if (f.is_open()){
 
-	f.close();
+		f.close();
 
-	//std::string Nombre,Apellido,DNI,Email,Telefono,Favorito,VecesUsado,Numero,CP,Size;
+		//-------------------VARIABLES AUXILIARES--------------------------
 
-	int sizeList, sizeVdirecc, sizeVredes, sizeVtlf,size;
-	bool fav;
-	long cp;
+		int sizeList, sizeVdirecc, sizeVredes, sizeVtlf,size;
+		bool fav;
+		long cp;
 
-	char cad[200];
+		char cad[200];
 
-	struct Direccion direccAux;
-	struct Redes redAux;
-	std::vector <Direccion> vectorDirecc;
-	std::vector <Redes> vectorRedes;
-	std::vector <std::string> vectorTlf;
+		struct Direccion direccAux;
+		struct Redes redAux;
 
-	std::list<Contacto> aux; //Lista auxiliar donde guardaremos los contactos de agenda.juda
-	Contacto c;
+		std::vector <Direccion> vectorDirecc;
+		std::vector <Redes> vectorRedes;
+		std::vector <std::string> vectorTlf;
 
-	std::ifstream fentrada("agenda.juda", std::ios::binary); //abrimos agenda.juda
+		std::list<Contacto> auxLista; //Lista auxiliar donde guardaremos los contactos de agenda.juda
+		Contacto c;
 
-	fentrada.read((char*)&sizeList,sizeof(int));  //Número de contactos en la Agenda
+		//---------------------------------------------------------------
 
-	//std::getline(fentrada,Size,'\n');
+		std::ifstream fentrada("agenda.juda", std::ios::binary); //abrimos agenda.juda
 
-	while(sizeList != 0){
+		fentrada.read((char*)&sizeList,sizeof(int));  //Número de contactos en la Agenda
 
-		sizeList--;
+		while(sizeList != 0){
 
+			sizeList--;
 
-		fentrada.read ((char*) cad, 200*sizeof (char));
-		std::string Nombre(cad);
-
-		fentrada.read ((char*) cad, 200*sizeof (char));
-		std::string Apellido(cad);
-
-		fentrada.read ((char*) cad, 200*sizeof (char));
-		std::string DNI(cad);
-
-		fentrada.read ((char*) cad, 200*sizeof (char));
-		std::string Email(cad);
-
-		fentrada.read ((char*) &size, sizeof (int));
-		fentrada.read ((char*) &fav, sizeof (bool));
-
-		c.setNombre(Nombre);
-		c.setApellidos(Apellido);
-		c.setDni(DNI);
-		c.setEmail(Email);
-		c.setVecesUsado(size);
-		c.setFavorito(fav);
-
-		/*std::getline(fentrada,Nombre,'\n');
-		c.setNombre(Nombre);
-		std::getline(fentrada,Apellido,'\n');
-		c.setApellidos(Apellido);
-		std::getline(fentrada,DNI,'\n');
-		c.setDni(DNI);
-		std::getline(fentrada,Email,'\n');
-		c.setEmail(Email);
-		fentrada.ignore();
-		std::getline(fentrada,VecesUsado,'\n');
-		c.setVecesUsado(atoi(VecesUsado.c_str()));
-		fentrada.ignore();
-		std::getline(fentrada,Favorito,'\n');
-		c.isFavorito()=='0'?(c.setFavorito(false)):(c.setFavorito(true));*/
-
-		//std::getline(fentrada,Size,'~');
-
-
-		fentrada.read((char*)&sizeVdirecc,sizeof(int));  //Número de Direcciones del contacto
-
-		//int sizeVdirecc = atoi(Size.c_str()); //Número de Direcciones del contacto
-
-		while(sizeVdirecc != 0){
-
-			sizeVdirecc--;
+			//Leemos en char y lo pasamos a string
 
 			fentrada.read ((char*) cad, 200*sizeof (char));
-			std::string provincia(cad);
+			std::string Nombre(cad);
 
 			fentrada.read ((char*) cad, 200*sizeof (char));
-			std::string ciudad(cad);
+			std::string Apellido(cad);
 
 			fentrada.read ((char*) cad, 200*sizeof (char));
-			std::string tipoCalle(cad);
+			std::string DNI(cad);
 
 			fentrada.read ((char*) cad, 200*sizeof (char));
-			std::string calle(cad);
+			std::string Email(cad);
 
 			fentrada.read ((char*) &size, sizeof (int));
-			fentrada.read ((char*) &cp, sizeof (long));
+			fentrada.read ((char*) &fav, sizeof (bool));
 
-			direccAux.provincia = provincia;
-			direccAux.ciudad = ciudad;
-			direccAux.tipoCalle = tipoCalle;
-			direccAux.calle = calle;
-			direccAux.numero = size;
-			direccAux.CP = cp;
+			//Asignamos valores en Contacto
 
-			/*std::getline(fentrada,direccAux.provincia,'~');
-			std::getline(fentrada,direccAux.ciudad,'~');
-			std::getline(fentrada,direccAux.tipoCalle,'~');
-			std::getline(fentrada,direccAux.calle,'~');
-			fentrada.ignore();
-			std::getline(fentrada,Numero,'~');
-			fentrada.ignore();
-			std::getline(fentrada,CP,'~');
-			fentrada.ignore();
+			c.setNombre(Nombre);
+			c.setApellidos(Apellido);
+			c.setDni(DNI);
+			c.setEmail(Email);
+			c.setVecesUsado(size);
+			c.setFavorito(fav);
 
-			direccAux.numero = atoi(Numero.c_str());
-			direccAux.CP = atoi(CP.c_str());*/
+			fentrada.read((char*)&sizeVdirecc,sizeof(int));  //Número de Direcciones del contacto
 
-			vectorDirecc.push_back(direccAux);
+			while(sizeVdirecc != 0){
+
+				sizeVdirecc--;
+
+
+				fentrada.read ((char*) cad, 200*sizeof (char));
+				std::string provincia(cad);
+
+				fentrada.read ((char*) cad, 200*sizeof (char));
+				std::string ciudad(cad);
+
+				fentrada.read ((char*) cad, 200*sizeof (char));
+				std::string tipoCalle(cad);
+
+				fentrada.read ((char*) cad, 200*sizeof (char));
+				std::string calle(cad);
+
+				fentrada.read ((char*) &size, sizeof (int));
+				fentrada.read ((char*) &cp, sizeof (long));
+
+				direccAux.provincia = provincia;
+				direccAux.ciudad = ciudad;
+				direccAux.tipoCalle = tipoCalle;
+				direccAux.calle = calle;
+				direccAux.numero = size;
+				direccAux.CP = cp;
+				vectorDirecc.push_back(direccAux);
+
+			}
+
+			//Asignamos vectorDirecc a Contacto y repetimos proceso con resto de vectores.
+
+			c.setDireccion(vectorDirecc);
+
+			fentrada.read((char*)&sizeVredes, sizeof(int)); //Número de Redes Sociales del contacto
+
+			while(sizeVredes != 0){
+
+				sizeVredes--;
+				fentrada.read ((char*) cad, 200*sizeof (char));
+				std::string RedSocial(cad);
+
+				fentrada.read ((char*) cad, 200*sizeof (char));
+				std::string Usuario(cad);
+
+				redAux.redSocial = RedSocial;
+				redAux.usuario = Usuario;
+
+				vectorRedes.push_back(redAux);
+
+
+			}
+
+			c.setRedesSociales(vectorRedes);
+
+			fentrada.read((char*)&sizeVtlf, sizeof(int)); //Número de telefonos del contacto
+
+			while(sizeVtlf != 0){
+
+				sizeVtlf--;
+
+				fentrada.read ((char*) cad, 200*sizeof (char));
+				std::string Telefono(cad);
+
+				vectorTlf.push_back(Telefono);
+
+			}
+
+			c.setTelefonos(vectorTlf);
+
+			//Asignamos Contacto en lista auxiliar.
+
+			auxLista.push_back(c);
+
+			//Limpiamos vectores para evitar que se mezclen datos de diferentes Contactos.
+
+			vectorDirecc.clear();
+			vectorRedes.clear();
+			vectorTlf.clear();
+
+
 
 		}
 
-		c.setDireccion(vectorDirecc);
+		//Volcamos la lista a la agenda.
 
-		fentrada.read((char*)&sizeVredes, sizeof(int)); //Número de Redes Sociales del contacto
+		setListaContactos(auxLista);
 
-		while(sizeVredes != 0){
+		//Cerramos
 
-			sizeVredes--;
-			fentrada.read ((char*) cad, 200*sizeof (char));
-			std::string RedSocial(cad);
-
-			fentrada.read ((char*) cad, 200*sizeof (char));
-			std::string Usuario(cad);
-
-			redAux.redSocial = RedSocial;
-			redAux.usuario = Usuario;
-
-			vectorRedes.push_back(redAux);
-
-
-		}
-
-		c.setRedesSociales(vectorRedes);
-
-		fentrada.read((char*)&sizeVtlf, sizeof(int)); //Número de telefonos del contacto
-
-		while(sizeVtlf != 0){
-
-			sizeVtlf--;
-
-			fentrada.read ((char*) cad, 200*sizeof (char));
-			std::string Telefono(cad);
-
-			vectorTlf.push_back(Telefono);
-
-		}
-
-		c.setTelefonos(vectorTlf);
-
-		aux.push_back(c);
-
-		vectorDirecc.clear();
-		vectorRedes.clear();
-		vectorTlf.clear();
-
-
-
-	}
-
-	setListaContactos(aux); //Volcamos la lista a la agenda.
-
-	fentrada.close(); //Cerramos
+		fentrada.close();
 	}
 
 	else
-		f.close();
-	//No existe el fichero agenda.juda No se hace nada, ya que no hay datos que volcar.
+		f.close();//No existe el fichero agenda.juda No se hace nada, ya que no hay datos que volcar.
 
 }
 
