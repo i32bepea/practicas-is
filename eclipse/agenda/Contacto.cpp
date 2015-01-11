@@ -45,7 +45,10 @@ std::ostream &operator<<(std::ostream &o,const Contacto &c){
 	o<<"\t-Email: "<<c.getEmail()<<std::endl;
 	o<<"\t-Número veces usado: "<<c.getVecesUsado()<<std::endl;
 	o<<"\t-Favorito: ";
-	c.isFavorito()=='1'?(o<<"Si"):(o<<"No");
+
+	if(c.isFavorito() == 1) o<<"Si";
+	else o<<"No";
+
 	o<<std::endl;
 
 	for(it0=c.getDireccion().begin();it0!=c.getDireccion().end();it0++)

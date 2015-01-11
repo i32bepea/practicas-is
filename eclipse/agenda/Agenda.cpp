@@ -202,8 +202,10 @@ int Agenda::modificarContacto (const std::string &DNI){
 			else{
 			std::cin.clear();
 			std::cin>>c;
-			if(insertarContacto (c)==false)
-				std::cout<<"ERROR! Ha habido un error a la hora de introducir el contacto en la agenda";
+			if(insertarContacto (c)==false){
+				std::cout<<"\nERROR! Ha habido un error a la hora de introducir el contacto en la agenda\n";
+				getchar();
+			}
 			}
 		}
 
@@ -276,50 +278,57 @@ int Agenda::modificarContacto (const std::string &DNI){
 			case 4:{
 
 				std::vector <Direccion>::const_iterator it0;
-				int i=1;
+				int i=0;
 				aux=(*c);
-				if(aux.getDireccion().empty()!=true){
+				int opt=0;
+				int vaux;
 				for(it0=aux.getDireccion().begin();it0!=aux.getDireccion().end();it0++,i++)
-					std::cout<<i<<". Dirección: "<<(*it0).provincia<<", "<<(*it0).ciudad<<", "<<(*it0).tipoCalle<<", "<<(*it0).calle<<", "<<(*it0).numero<<", "<<		(*it0).CP<<std::endl;
+					std::cout<<i+1<<". Dirección: "<<(*it0).provincia<<", "<<(*it0).ciudad<<", "<<(*it0).tipoCalle<<", "<<(*it0).calle<<", "<<(*it0).numero<<", "<< (*it0).CP<<std::endl;
 
-				std::cout<<"Introduzca el número de la dirección a modificar:";
-
-				int opt=1;
-
-				while(opt>=1||opt<=i){//Método para comprobar que la dirección introducida es correcta.
+				while(opt>=0 && opt<=i){//Método para comprobar que la dirección introducida es correcta.
+					//std::cin.clear();
+					std::cout<<"Introduzca el número de la dirección a modificar o 0 si desea añadir una nueva:";
 
 					std::cin>>opt;
-					if(opt<1||opt>i){
-						opt=1;
-						std::cout<<"ERROR! La dirección introducida no existe.\nIntroduzca el número de la dirección a modificar:";
-					}
-
-					else
+					if(opt<0||opt>i){
 						opt=0;
+						std::cout<<"ERROR! La dirección introducida no existe.\n";
+					}
+					else{
+						vaux=opt;
+						opt=-1;
+					}
+				}
+				opt=vaux;
+				std::vector <Direccion> v=aux.getDireccion();
+				if(opt==0){
+					opt=i+1;
+					Direccion d;
+					v.push_back(d);
 				}
 
-				std::vector <Direccion> v=aux.getDireccion();
 				//Recogemos los datos de la dirección.
+				std::cout<<"Introduzca la provincia:";
+				std::cin.ignore();
+				std::getline(std::cin,v[opt-1].provincia,'\n');
+				std::cout<<"Introduzca la ciudad:";
+				std::getline(std::cin,v[opt-1].ciudad,'\n');
+				do{
+					std::cout<<"\t\t+Introduzca el tipo de calle (calle,avenida,carretera o plaza): ";
+					std::getline(std::cin,v[opt-1].tipoCalle,'\n');
+
+				}while(v[opt-1].tipoCalle!="calle" && v[opt-1].tipoCalle!="avenida" && v[opt-1].tipoCalle!="carretera" && v[opt-1].tipoCalle!="plaza");
 				std::cout<<"Introduzca la calle:";
 				std::getline(std::cin,v[opt-1].calle,'\n');
 				std::cout<<"Introduzca el número:";
 				std::cin>>v[opt-1].numero;
 				std::cout<<"Introduzca el código postal:";
 				std::cin>>v[opt-1].CP;
-				std::cout<<"Introduzca la ciudad:";
-				std::getline(std::cin,v[opt-1].ciudad,'\n');
-				std::cout<<"Introduzca la provincia:";
-				std::getline(std::cin,v[opt-1].provincia,'\n');
-				std::cout<<"Introduzca el número:";
-				std::cin>>v[opt-1].numero;
-				std::cout<<"Introduzca el tipo de calle:";
-				std::getline(std::cin,v[opt-1].tipoCalle,'\n');
+
 
 				(*c).setDireccion(v); //Asignamos el vector de direcciones al contacto real.
-				}
-				else{
-					std::cout<<"\nNo existen direcciones\n";
-				}
+
+
 				break;}
 
 			case 5:{
@@ -327,6 +336,7 @@ int Agenda::modificarContacto (const std::string &DNI){
 				std::string cadena;
 
 				std::cout<<"Introduzca el email:";
+				std::cin.ignore();
 				std::getline(std::cin,cadena,'\n');
 
 				if(cadena=="")//Comprueba que no ha dejado el campo vacio.
@@ -338,36 +348,46 @@ int Agenda::modificarContacto (const std::string &DNI){
 
 			case 6:{
 
-				std::vector <Redes>::const_iterator it1;
-				int i=1;
+				std::vector <Redes>::const_iterator it0;
+				int i=0;
 				aux=(*c);
+				int opt=0;
+				int vaux;
+				for(it0=aux.getRedesSociales().begin();it0!=aux.getRedesSociales().end();it0++,i++)
+					std::cout<<i+1<<". Red social: "<<(*it0).redSocial<<", usuario: "<<(*it0).usuario<<std::endl;
 
-				for(it1=aux.getRedesSociales().begin();it1!=aux.getRedesSociales().end();it1++,i++)
-					std::cout<<i<<". Red social: "<<(*it1).redSocial<<", usuario: "<<(*it1).usuario<<std::endl;
 
-				std::cout<<"Introduzca el número de la dirección a modificar:";
-				int opt=1;
+				while(opt>=0 && opt<=i){//Método para comprobar que la dirección introducida es correcta.
 
-				while(opt>=1||opt<=i){ //Método para comprobar que la red social introducida es correcta.
+					std::cout<<"Introduzca el número de la red social a modificar o 0 si desea añadir una nueva:";
 
 					std::cin>>opt;
-					if(opt<1||opt>i){
-						opt=1;
-						std::cout<<"ERROR! La red social introducida no existe.\nIntroduzca el número de la red social a modificar:";
-					}
-					else
+					if(opt<0||opt>i){
 						opt=0;
+						std::cout<<"ERROR! La red social introducida no existe.\n";
+					}
+					else{
+						vaux=opt;
+						opt=-1;
+					}
+				}
+				opt=vaux;
+				std::vector <Redes> v=aux.getRedesSociales();
+				if(opt==0){
+					opt=i+1;
+					Redes d;
+					v.push_back(d);
 				}
 
-				std::vector <Redes> v1=aux.getRedesSociales();
 				//Recogemos los datos de la red social.
+				std::cin.ignore();
 				std::cout<<"Introduzca la red social:";
-				std::getline(std::cin,v1[opt-1].redSocial,'\n');
+				std::getline(std::cin,v[opt-1].redSocial,'\n');
 				std::cout<<"Introduzca el usuario:";
-				std::getline(std::cin,v1[opt-1].usuario,'\n');
+				std::getline(std::cin,v[opt-1].usuario,'\n');
 
 
-				(*c).setRedesSociales(v1); //Asignamos el vector de direcciones al contacto real.
+				(*c).setRedesSociales(v);
 
 			break;}
 
@@ -398,51 +418,65 @@ int Agenda::modificarContacto (const std::string &DNI){
 			break;}
 
 			case 8:{
-
-				std::vector <std::string>::const_iterator it2;
-				int i=1;
+				std::vector <std::string>::const_iterator it0;
+				int i=0;
 				aux=(*c);
+				int opt=0;
+				int vaux;
+				for(it0=aux.getTelefonos().begin();it0!=aux.getTelefonos().end();it0++,i++)
+					std::cout<<i+1<<". Número de teléfono: "<<(*it0)<<std::endl;
 
-				for(it2=aux.getTelefonos().begin();it2!=aux.getTelefonos().end();it2++,i++)
-					std::cout<<i<<". Número de teléfono: "<<(*it2)<<std::endl;
 
-				std::cout<<"Introduzca el número de la dirección a modificar:";
+				while(opt>=0 && opt<=i){//Método para comprobar que la dirección introducida es correcta.
 
-				int opt=1;
-
-				while(opt>=1||opt<=i){ //Método para comprobar que el teléfono introducida es correcta.
+					std::cout<<"Introduzca el número del teléfono a modificar o 0 si desea añadir una nueva:";
 
 					std::cin>>opt;
-					if(opt<1||opt>i){
-						opt=1;
-						std::cout<<"ERROR! El teléfono introducido no existe.\nIntroduzca el número de el teléfono a modificar:";
-					}
-
-					else
+					if(opt<0||opt>i){
 						opt=0;
+						std::cout<<"ERROR! El teléfono introducido no existe.\n";
+					}
+					else{
+						vaux=opt;
+						opt=-1;
+					}
+				}
+				opt=vaux;
+				std::vector <std::string> v=aux.getTelefonos();
+				if(opt==0){
+					opt=i+1;
+					std::string d;
+					v.push_back(d);
 				}
 
-				std::vector <std::string> v2 = aux.getTelefonos();
 				//Recogemos los datos del número de teléfono.
+				std::cin.ignore();
 				std::cout<<"Introduzca el número de teléfono:";
-				std::getline(std::cin,v2[opt-1],'\n');
+				std::getline(std::cin,v[opt-1],'\n');
 
-				(*c).setTelefonos(v2); //Asignamos el vector de teléfonos al contacto real.*/
+
+				(*c).setTelefonos(v);
+
 
 			break;}
 
 			case 9:
 				borrarContacto (DNI);
 
-				if(insertarContacto(contacto)==false)
-					std::cout<<"ERROR! Ha habido un error a la hora de introducir el contacto modificado en la agenda";
-
+				if(insertarContacto(contacto)==false){
+					std::cout<<"\nERROR! Ha habido un error a la hora de introducir el contacto modificado en la agenda.";
+					std::cout<<"\nPulse enter...\n";
+					getchar();
+				}
 				salir=1;
 
 			break;
 
 			default:
-				std::cout<<"Opción incorrecta!";
+				std::cout<<"\nOpción incorrecta!";
+				std::cout<<"\nPulse enter...\n";
+				std::cin.ignore();
+				getchar();
 		}
 		}
 
@@ -451,7 +485,10 @@ int Agenda::modificarContacto (const std::string &DNI){
 	break;}
 
 	default:
-		std::cout<<"Opción incorrecta!\n";
+		std::cin.ignore();
+		getchar();
+		std::cout<<"Opción incorrecta!";
+		std::cout<<"\nPulse enter...\n";
 	}
 
 return 1;
@@ -523,6 +560,7 @@ void Agenda::volcado(){
 
 	std::ofstream file ("agenda.juda", std::ios::binary); //Creamos fichero.
 
+
 	std::list<Contacto> auxLista = getListaContactos(); //Lista auxiliar donde guardaremos los contactos de la agenda.
 
 	Contacto c;
@@ -530,7 +568,8 @@ void Agenda::volcado(){
 	int size; //Auxiliar donde se guardarán los enteros del contacto, asi como el tamaño de lista y vectores.
 	bool fav; //Auxiliar para boolean.
 	long cp;  //Auxiliar para long.
-
+	size=100793; //Creamos un código de comprobación, para evitar archivos corruptos de agenda.juda
+	file.write ((char*) &size, sizeof (int));
 	size = getListaContactos().size();
 
 	//Escribimos el número de Contactos al principio del fichero binario, para poder leerlo despues y usarlo en el bucle
@@ -648,6 +687,8 @@ void Agenda::leerAgendaJuda(){
 
 		std::ifstream fentrada("agenda.juda", std::ios::binary); //abrimos agenda.juda
 
+		fentrada.read((char*)&sizeList,sizeof(int));
+		if(sizeList==100793){ //Si el código de comprobación de archivos corruptos no es correcto, no abre el fichero.
 		fentrada.read((char*)&sizeList,sizeof(int));  //Número de contactos en la Agenda
 
 		while(sizeList != 0){
@@ -770,7 +811,7 @@ void Agenda::leerAgendaJuda(){
 		setListaContactos(auxLista);
 
 		//Cerramos
-
+		}
 		fentrada.close();
 	}
 
