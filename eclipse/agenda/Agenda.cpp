@@ -610,6 +610,72 @@ void Agenda::volcado(){
 
 //El constructor volcará todo el contenido de agenda.juda si es que existe.
 
+void Agenda::prepararImpresion(){
+
+	Contacto c;
+
+	std::list <Contacto>:: const_iterator it;
+
+	std::vector <Direccion>::const_iterator it0;
+	std::vector <Redes>::const_iterator it1;
+	std::vector <std::string>::const_iterator it2;
+
+	std::ofstream fichero ("Agenda.html");
+
+	if (fichero.is_open()){
+
+		fichero<<"<!DOCTYPE html>\n<html lang=""es"">\n<head>\n<meta charset=""utf-8"" />\n<title>AGENDA CONTACTOS</title>\n</head>";
+		fichero<<"<body>\n";
+
+
+		fichero<<"<p><h1>AGENDA DE CONTACTOS</h1></p>";
+
+		for(it=getListaContactos().begin(); it!=getListaContactos().end(); it++){
+
+			fichero<<"<p><hr></p>";
+			fichero<<"<p><h5><address><b>Nombre: </b>"<<(*it).getNombre()<<"</address></h5></p>";
+			fichero<<"<p><h5><address><b>Apellido: </b>"<<(*it).getApellidos()<<"</address></h5></p>";
+			fichero<<"<p><h5><address><b>DNI: </b>"<<(*it).getDni()<<"</address></h5></p>";
+			fichero<<"<p><h5><address><b>Email: </b>"<<(*it).getEmail()<<"</address></h5></p>";
+			fichero<<"<p><h5><address><b>Número veces usado: </b>"<<(*it).getVecesUsado()<<"</address></h5></p>";
+			fichero<<"<p><h5><address><b>Favorito: </b>";
+
+			if((*it).isFavorito() == 1) fichero<<"Si</address></h5></p>";
+			else fichero<<"No</address></h5></p>";
+
+			for(it0=(*it).getDireccion().begin();it0!=(*it).getDireccion().end();it0++)
+				fichero<<"<p><h5><address><b>-Dirección: </b>"<<(*it0).provincia<<", "<<(*it0).ciudad<<", "<<(*it0).tipoCalle<<" "<<(*it0).calle<<", "<<(*it0).numero<<", "<<(*it0).CP<<"</address></h5></p>";
+			for(it1=(*it).getRedesSociales().begin();it1!=(*it).getRedesSociales().end();it1++)
+				fichero<<"<p><h5><address><b>-Tipo de Red: </b>"<<(*it1).redSocial<<"    <b>-Usuario:</b> "<<(*it1).usuario<<"</address></h5></p>";
+			for(it2=(*it).getTelefonos().begin();it2!=(*it).getTelefonos().end();it2++)
+				fichero<<"<p><h5><address><b>-Teléfono: </b>"<<(*it2)<<"</address></h5></p>";
+
+			fichero<<"<p><hr></p>";
+
+		}
+
+		fichero<<"\n</body>\n";
+		fichero<<"<\html>";
+		fichero.close();
+
+
+	}
+
+
+	else{
+
+		fichero.close();//No existe por lo que no hay que eliminarla.
+	}
+
+
+
+
+
+}
+
+
+
+
 Agenda::Agenda() {
 
 	//Primero comprobamos si existe agenda.juda

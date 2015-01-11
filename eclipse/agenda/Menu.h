@@ -22,6 +22,7 @@ public:
 	void listar(); //Tiene que listar todos los contactos y dar la posibilidad de ir hacia atrás.
 	void seguridad(); //Tiene que mostrar el menú de seguridad y llamar a las respectivas funciones.
 	void mostrarMenu(); //Esta función muestra el menú.
+	void prepararImpersion();//Esta función crea un archivo con la agenda para imprimirla.
 	void salir(); //Esta función se encargará de gestionar la salida de la aplicación, creando el fichero agenda.juda que guardará todos los cambios hechos durante la ejecución. En este caso los cambios están en una lista de contactos y es esta la que hay que añadir y ordenar.
 
 	Menu(); //Tiene que cargar todos los contactos del fichero en la lista de agenda.

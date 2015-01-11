@@ -13,7 +13,6 @@ int main(){
 
 	Menu menuPrincipal;
 
-
 	do{
 
 		menuPrincipal.mostrarMenu();
@@ -53,6 +52,10 @@ int main(){
 
 		case 7:
 
+			menuPrincipal.prepararImpersion();
+			break;
+		case 8:
+
 			menuPrincipal.salir();
 			break;
 
@@ -63,7 +66,8 @@ int main(){
 
 
 
-	}while(opc != 7);
+	}while(opc != 8);
+
 
 	return 0;
 }

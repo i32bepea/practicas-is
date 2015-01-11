@@ -21,7 +21,7 @@ void Menu::mostrarMenu(){
 	std::cout<<"                         AGENDA                           "<<std::endl;
 	std::cout<<"=========================================================="<<std::endl;
 
-	std::cout<<"\n+1. Insertar contacto.\n+2. Buscar contacto.\n+3. Borrar contacto.\n+4. Modificar contacto.\n+5. Mostrar contactos de la agenda.\n+6. Seguridad.\n+7. Salir.\n";
+	std::cout<<"\n+1. Insertar contacto.\n+2. Buscar contacto.\n+3. Borrar contacto.\n+4. Modificar contacto.\n+5. Mostrar contactos de la agenda.\n+6. Seguridad.\n+7. Preparar para impresión\n+8. Salir.\n";
 	std::cout<<"\n\t-Elija una opción:";
 }
 void Menu::salir(){
@@ -58,9 +58,12 @@ void Menu::seguridad(){
 				if((*gestor).listarCopia()==false)
 					std::cout<<"\n¡Error al listar las copias de seguridad!";
 				else{
+
 					std::cout<<"\nIntroduzca el nombre incluida la extensión, de la copia de seguridad que desea restaurar.";
 					std::string cadena;
-					std::getline(std::cin,cadena,'\n');
+
+					std::getline(std::cin,cadena,'a');
+					cadena ="./CS/"+ cadena +"a";
 
 						if((*gestor).restaurarCopia(cadena)==false)
 							std::cout<<"¡Error al intentar restaurar la copia de seguridad!";
@@ -373,6 +376,16 @@ void Menu::listar(){
 	}while(opc != 3);
 
 
+
+}
+
+void Menu::prepararImpersion(){
+
+	agenda_.prepararImpresion();
+
+	std::cout<<"\t-¡Documento creado!"<<std::endl;
+	std::cout<<"\t-¡Pulse ENTER para salir."<<std::endl;
+	getchar();
 
 }
 
