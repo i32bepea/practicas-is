@@ -25,6 +25,7 @@ public:
 	virtual bool restaurarCopia (std::string nombre) = 0;
 	virtual bool borrarCopia (std::string nombre) = 0;
 	virtual bool listarCopia () = 0;
+
 };
 
 #endif /* GESTORCS_H_ */

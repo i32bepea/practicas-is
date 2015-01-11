@@ -16,9 +16,9 @@
 
 bool GestorCSFichero::realizarCopia (){ //Realiza una copia de agenda.juda a /CS/fechaYhora.juda Para ello tiene que volcar los datos existentes de Agenda a agenda.juda
 
-	//Volcamos los datos de la agenda a el fichero agenda.juda para poder realizar la copia de seguridad.
-	//PROCESO DE COPIA de seguridad de agenda.juda
 
+	//Volcamos los datos de la agenda a el fichero agenda.juda para poder realizar la copia de seguridad.
+		  	  	 //PROCESO DE COPIA de seguridad de agenda.juda
 	system("mkdir CS");
 
 	time_t tiempo = time(0);
@@ -45,10 +45,8 @@ bool GestorCSFichero::restaurarCopia (std::string nombre){ // Restaura la copia 
 
 		f.close();
 
-		if(system("rm agenda.juda")==-1)
-				return false;
+		cadena= "cp " + cadena + " agenda.juda";
 
-		cadena= "cp " + cadena + "agenda.juda";
 		if(system(cadena.c_str())==-1){
 			return false;
 		}
@@ -63,27 +61,30 @@ bool GestorCSFichero::restaurarCopia (std::string nombre){ // Restaura la copia 
 }
 
 bool GestorCSFichero::borrarCopia (std::string nombre){ // Borra la copia de seguridad indicada en string nombre, tiene que venir con la extensión, y las comprobaciones de que exista las hace la función.
-	std::string cadena;//="./CS/" + nombre;
+	std::string cadena="./CS/" + nombre;
 	std:: ifstream f (cadena.c_str());
-	//if (f.is_open()){
+	if (f.is_open()){
 
-	//	f.close();
+		f.close();
 
-		cadena= "rm  " + nombre;
+		cadena= "rm CS/" + nombre;
 
 		if(system(cadena.c_str())==-1)
 			return false;
 
 		else
 			return true;
-	//   }
-	//  else{
-	//	  f.close();
-	//	  return false; //No existe la copia de seguridad que hay que borrar.
-	 // }
+	   }
+	  else{
+		  f.close();
+		  return false; //No existe la copia de seguridad que hay que borrar.
+	  }
 }
 bool GestorCSFichero::listarCopia (){ // Borra la copia de seguridad indicada en string nombre, tiene que venir con la extensión, y las comprobaciones de que exista las hace la función.
-	if(system("ls CP")==-1)
+
+	std::cout<<"==============  copias de seguridad  =============="<<std::endl;
+
+	if(system("ls ./CS")==-1)
 		return false;
 	else
 		return true;

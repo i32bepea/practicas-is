@@ -32,8 +32,8 @@ private:
 	std::string nombre_;
 	std::string apellidos_;
 	std::vector <Direccion> direccion_;
-	std:: string email_;
-	std::  vector <Redes> redesSociales_;
+	std::string email_;
+	std::vector <Redes> redesSociales_;
 	int vecesUsado_;
 	bool favorito_;
 	std::vector <std::string> telefonos_;

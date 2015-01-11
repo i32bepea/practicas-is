@@ -52,6 +52,7 @@ int main(){
 
 		case 7:
 
+			std::cin.ignore();
 			menuPrincipal.prepararImpersion();
 			break;
 		case 8:
