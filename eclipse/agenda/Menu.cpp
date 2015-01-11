@@ -37,7 +37,7 @@ void Menu::insertarContacto() {
 	Contacto aux;
 
 	system("clear");
-
+	std::cin.ignore();
 	std::cin>>aux;
 	comprobante = agenda_.insertarContacto(aux);
 

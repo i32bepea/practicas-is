@@ -83,7 +83,6 @@ std::istream &operator>>(std::istream &i,Contacto &c)
 		case 1:
 
 			std::cout<<"\t-Introduzca el nombre del contacto (OBLIGATORIO): ";
-			getchar();
 			std::getline(i,Nombre,'\n');
 
 			if(Nombre == "") std::cout<<"\n##ERROR, no puede dejar en blanco un campo obligatorio\n"<<std::endl;
