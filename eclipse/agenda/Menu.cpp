@@ -24,6 +24,8 @@ void Menu::mostrarMenu(){
 	std::cout<<"\n+1. Insertar contacto.\n+2. Buscar contacto.\n+3. Borrar contacto.\n+4. Modificar contacto.\n+5. Mostrar contactos de la agenda.\n+6. Seguridad.\n+7. Preparar para impresión\n+8. Guardar cambios y Salir.\n";
 	std::cout<<"\n\t-Elija una opción: ";
 }
+
+
 void Menu::salir(){
 
 	agenda_.volcado(); //Vuelca el contenido de la agenda a agenda.juda

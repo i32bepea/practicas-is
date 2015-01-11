@@ -16,7 +16,7 @@
 
 # Points to the root of Google Test, relative to where this file is.
 # Remember to tweak this if you move this file.
-GTEST_DIR = /home/cosmic0/github/practicas-is/gtest
+GTEST_DIR =/gtest-1.7.0
 
 # Where to find user code.
 # USER_DIR = ../samples
@@ -73,9 +73,6 @@ gtest_main.a : gtest-all.o gtest_main.o
 # Builds a sample test.  A test should link with either gtest.a or
 # gtest_main.a, depending on whether it defines its own main()
 # function.
-agenda.exe : Main.cpp Contacto.cpp Agenda.cpp GestorCSFichero.cpp Menu.cpp
-	 g++ Main.cpp Contacto.cpp Agenda.cpp GestorCSFichero.cpp Menu.cpp -o agenda.exe
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $^ -o $@
 
 Contacto.o : Contacto.cpp Contacto.h
 contacto_unittest.o : contacto_unittest.cpp Contacto.h Contacto.cpp

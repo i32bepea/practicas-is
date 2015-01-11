@@ -116,9 +116,9 @@ public:
 		vecesUsado_ = vecesUsado;
 	}
 
-	friend std::ostream &operator<<(std::ostream &o,const Contacto &c);//Sobrecarga flujo salida
+	friend std::ostream &operator<<(std::ostream &o,const Contacto &c);		//Sobrecarga flujo salida.
 
-	friend std::istream &operator>>(std::istream &i,Contacto &c);//Sobrecarga flujo entrada
+	friend std::istream &operator>>(std::istream &i,Contacto &c);				//Sobrecarga flujo entrada.
 
 };
 

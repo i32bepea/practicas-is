@@ -15,12 +15,10 @@
 #include "Contacto.h"
 
 
-bool GestorCSFichero::realizarCopia (){ //Realiza una copia de agenda.juda a /CS/fechaYhora.juda Para ello tiene que volcar los datos existentes de Agenda a agenda.juda
+bool GestorCSFichero::realizarCopia (){ 
 
 
-	//Volcamos los datos de la agenda a el fichero agenda.juda para poder realizar la copia de seguridad.
-		  	  	 //PROCESO DE COPIA de seguridad de agenda.juda
-	if(getCopiasSeguridad().size() == 0)
+	if(getCopiasSeguridad().size() == 0) 			//Si ya hay elementos en el vector quiere decir que la carpeta ya está creada. no es necesario hacer mkdir.
 		system("mkdir CS");
 
 	std::ifstream fichero("agenda.juda");
@@ -31,10 +29,10 @@ bool GestorCSFichero::realizarCopia (){ //Realiza una copia de agenda.juda a /CS
 		time_t tiempo = time(0);
 		struct tm *tlocal = localtime(&tiempo);
 		char salida[128];
-		strftime(salida,128,"%d.%m.%y-%H:%M:%S",tlocal);
+		strftime(salida,128,"%d.%m.%y-%H:%M:%S",tlocal);				//Nuevo nombre del fichero.
 
 		std::string output(salida);
-		std::string nombre = output +".juda";
+		std::string nombre = output +".juda";								//Nombre que se guardará en el vector
 
 
 		//Prevenimos que haya dos strings con mismo nombre en el vector, ya que al ser el nombre la hora local
@@ -62,7 +60,7 @@ bool GestorCSFichero::realizarCopia (){ //Realiza una copia de agenda.juda a /CS
 	}
 }
 
-bool GestorCSFichero::restaurarCopia (std::string nombre){ // Restaura la copia de seguridad indicada en string nombre, tiene que venir con la extensión, y las comprobaciones de que exista las hace la función.
+bool GestorCSFichero::restaurarCopia (std::string nombre){ 
 
 	std::string cadena="./CS/" + nombre;
 	std:: ifstream f (cadena.c_str());
@@ -87,29 +85,30 @@ bool GestorCSFichero::restaurarCopia (std::string nombre){ // Restaura la copia 
 	}
 }
 
-bool GestorCSFichero::borrarCopia (std::string nombre){ // Borra la copia de seguridad indicada en string nombre, tiene que venir con la extensión, y las comprobaciones de que exista las hace la función.
-	std::string cadena="./CS/" + nombre;
+bool GestorCSFichero::borrarCopia (std::string nombre){ 
+
+	std::string cadena="./CS/" + nombre;             		//Le concatenamos al nombre el directorio.
 	std:: ifstream f (cadena.c_str());
 
 	if (f.is_open()){
 
 		f.close();
 
-		cadena= "rm CS/" + nombre;
+		cadena= "rm CS/" + nombre;									//Le concatenamos al nombre la orden borrar archivo y el directorio.
 
-		if(system(cadena.c_str())==-1)
+		if(system(cadena.c_str())==-1)							//Fallo el borrar.
 			return false;
 
 		else
-			return true;
+			return true;												//Todo OK.
 	}
 
 	  else{
 		  f.close();
-		  return false; //No existe la copia de seguridad que hay que borrar.
+		  return false; 												//No existe la copia de seguridad que hay que borrar.
 	  	}
 }
-bool GestorCSFichero::listarCopia (){ // Borra la copia de seguridad indicada en string nombre, tiene que venir con la extensión, y las comprobaciones de que exista las hace la función.
+bool GestorCSFichero::listarCopia (){ 
 
 	if(copiasSeguridad_.size() != 0){
 
@@ -123,11 +122,11 @@ bool GestorCSFichero::listarCopia (){ // Borra la copia de seguridad indicada en
 			std::cout<<"\t"<<i<<". "<<aux<<std::endl;
 		}
 
-		return true;
+		return true;												//Existe minimo una Copia de Seguridad.
 
 	}
 	else
-		return false;
+		return false;												//Ninguna Copia de Seguridad.
 
 }
 
@@ -138,22 +137,22 @@ void GestorCSFichero::volcar(){
 	if (f.is_open()){
 
 		f.close();
-		system("rm CopiasSeguridad.juda"); //Eliminamos CopiasSeguridad.juda si esta existe.
+		system("rm CopiasSeguridad.juda"); 												//Eliminamos CopiasSeguridad.juda si esta existe.
 	}
 
 	else{
 
-		f.close();//No existe por lo que no hay que eliminarla.
+		f.close();																				//No existe por lo que no hay que eliminarla.
 	}
 
 
 	std::ofstream fichero ("CopiasSeguridad.juda", std::ios::binary);
 
-	int size; //Auxiliar donde se guardarán los enteros del contacto, asi como el tamaño de lista y vectores.
+	int size; 																					//Auxiliar donde se guardarán los enteros del contacto, asi como el tamaño de lista y vectores.
 	char cad[200];
 	std::string nombreCopia;
 
-	size=100793; //Creamos un código de comprobación, para evitar archivos corruptos de agenda.juda
+	size=100793; 																				//Creamos un código de comprobación, para evitar archivos 'corruptos' de agenda.juda.
 	fichero.write ((char*) &size, sizeof (int));
 
 	size = getCopiasSeguridad().size();
@@ -177,15 +176,15 @@ void GestorCSFichero::lectura(){
 
 	if (fichero.is_open()){
 
-		int size; //Auxiliar donde se guardarán los enteros del contacto, asi como el tamaño de lista y vectores.
+		int size; 																//Auxiliar donde se guardarán los enteros del contacto, asi como el tamaño de lista y vectores.
 		char cad[200];
 		std::vector <std::string> aux;
 
 		fichero.read ((char*) &size, sizeof (int));
 
-		if(size == 100793){
+		if(size == 100793){													//Comprobamos código.
 
-			fichero.read ((char*) &size, sizeof (int)); //Numero de Copias de Seguridad;
+			fichero.read ((char*) &size, sizeof (int)); 				//Numero de Copias de Seguridad.
 
 			std::vector <std::string>::const_iterator it;
 
@@ -196,17 +195,7 @@ void GestorCSFichero::lectura(){
 				fichero.read ((char*) cad, 200*sizeof(char));
 				std::string nombreCopia(cad);
 
-				//std::ifstream ficheroAux(nombreCopia.c_str(), std::ios::binary);
-
-				//Comprobamos que el fichero existe;
-
-				//if(ficheroAux.is_open()){
-				//	ficheroAux.close();
 				aux.push_back(nombreCopia);
-				/*}
-
-				else
-					ficheroAux.close();*/
 
 			}
 
@@ -216,21 +205,7 @@ void GestorCSFichero::lectura(){
 	}
 
 	else
-		fichero.close();//No existe por lo que no hay que eliminarla.
+		fichero.close();												
 
 }
-void GestorCSFichero::borrarElemento(const int &pos){
 
-	std::vector <std::string> v = getCopiasSeguridad();
-	std::vector <std::string>::iterator it;
-	int i = 0;
-
-	for(it = v.begin(); it != v.end(); it++,i++){
-
-		if(i == (pos-1))
-			v.erase(it);
-
-	}
-
-	setCopiasSeguridad(v);
-}

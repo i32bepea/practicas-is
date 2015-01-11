@@ -1,20 +1,3 @@
-/*
-/home/alvaro/Escritorio/IS/practicas-is/eclipse/agenda/Debug
-/home/alvaro/Escritorio/IS/practicas-is/eclipse/agenda/Agenda.cpp
-/home/alvaro/Escritorio/IS/practicas-is/eclipse/agenda/Agenda.h
-/home/alvaro/Escritorio/IS/practicas-is/eclipse/agenda/Contacto.cpp
-/home/alvaro/Escritorio/IS/practicas-is/eclipse/agenda/Contacto.h
-/home/alvaro/Escritorio/IS/practicas-is/eclipse/agenda/GestorCS.h
-/home/alvaro/Escritorio/IS/practicas-is/eclipse/agenda/GestorCSFichero.cpp
-/home/alvaro/Escritorio/IS/practicas-is/eclipse/agenda/GestorCSFichero.h
-/home/alvaro/Escritorio/IS/practicas-is/eclipse/agenda/Main.cpp
-/home/alvaro/Escritorio/IS/practicas-is/eclipse/agenda/Menu.cpp
-/home/alvaro/Escritorio/IS/practicas-is/eclipse/agenda/Menu.h * Agenda.cpp
- *
- *  Created on: 14/12/2014
- *      Author: cosmic0
- */
-
 #include "Agenda.h"
 #include <cstring>
 #include <cstdio>
@@ -24,58 +7,31 @@
 
 
 
-/*Alvaro:
- * Cuando se declara un iterator de tipo vector hay que hacerlo const (const_iterator),
- * de esa forma ya no da fallo con el 'operator =' en los bucles cuando se intenta recorrer.
- *
- * Es necesario colocar llaves en cada 'case' del switch cuando se declaran variables dentro,
- * no se muy bien porque pero dejarlo así  o sino dará error al compilar.
- *
- * En la funcion Contacto * buscarContacto()->fallo en el return porque no considera igual Contacto* a iterator,
- * no lo he solucionado.
- *
- * También he solcionado otros fallos menores del codigo(puntos y comas, parentesis,...).
- *
- * He colocado el metodo de sobrecarga de flujo de salida en la clase Contacto(Hay que colocarlo hay o dará fallo),
- * elimino por tanto el metodo imprimirContacto(), utilizar 'std::cout<<Contacto' ahora.
- *
- * La funcion de sobrecarga de flujo de entrada que Dani ha subido al github no funciona del tod,
- * no la coloco hasta que no funcione, asi que si colocais un 'std::cin>>Contacto' dejarlo comentado para
- * que no de error.
- *
- * No he colocado los metodos de Copia de Seguridad, porque tod esto se organiza a partir de una iterfaz,
- * cuando se averigue los colocaré.
- *
- * No me he parado a ver si los metodos funcionan correctamente, solo me he dedicado a solucionar
- * los fallos que daban al intentar compilar.
-*/
-
-bool Agenda::insertarContacto(const Contacto &c){ //Lo inserta, pero en la lista. Y ordena la lista.
-
+bool Agenda::insertarContacto(const Contacto &c){ 
 	if(c.getNombre()=="" || c.getApellidos()=="" || c.getDni()=="")
-			return false; //Comprobamos que los campos obligatorios han sido insertados.
+			return false; 											//Comprobamos que los campos obligatorios han sido insertados.
 
 	std::list<Contacto>::iterator ant;
 	int salir=0,cont=0;
 
-	if(!listaContactos_.empty()){
+	if(!listaContactos_.empty()){								//Comprobamos que agenda no esté vacía.
 		for(std::list<Contacto>::iterator pos=listaContactos_.begin(); pos!=listaContactos_.end()&&salir==0;pos++){
 
 			if(strcmp(c.getApellidos().c_str(),(*pos).getApellidos().c_str()) < 0){
 
 				if(cont==0)
-					listaContactos_.push_front(c); //Lo insertamos el primero de la lista.
+					listaContactos_.push_front(c); 			//Si con el primero que se compara da <0 => Menor, y por tanto introducimos el primero.
 
 				else
-					listaContactos_.insert(pos,c);
-				salir=1;
+					listaContactos_.insert(pos,c);			//Si se compara con alguno que no sea el primero y  da <0 => Menor, y por tanto insertamos.
+				salir=1;												//Si encuentra a alguno mayor sale del bucle.
 			}
 
 			if(strcmp(c.getApellidos().c_str(),(*pos).getApellidos().c_str()) == 0){
 
 				if(pos == listaContactos_.end()){
 
-					listaContactos_.insert(pos,c);
+					listaContactos_.insert(pos,c);			//Si se compara con el último y da =0 => Igual, y por tanto se inserta.
 					salir = 1;
 				}
 
@@ -86,12 +42,12 @@ bool Agenda::insertarContacto(const Contacto &c){ //Lo inserta, pero en la lista
 			cont++;
 		}
 
-		if(salir == 0) listaContactos_.push_back(c);
+		if(salir == 0) listaContactos_.push_back(c);		//Si es el mayor de todos se inserta el último
 
 	}
 
-	else{
-		listaContactos_.push_back(c);
+	else{																		
+		listaContactos_.push_back(c);							//Si la lista está vacía no compara e inserta directamente.
 	}
 
 	return true;
@@ -180,8 +136,7 @@ int Agenda::modificarContacto (const std::string &DNI){
 
 
 	if(devuelto!=1) //Comprueba si existe el contacto que se quiere modificar y si no existe se devuelve 0.
-		return 0; //Tiene que mostrarse en pantalla el error.
-
+		return 0;
 	int opt;
 	Contacto aux;
 
@@ -206,10 +161,10 @@ int Agenda::modificarContacto (const std::string &DNI){
 
 			if(opcControl == "s" || opcControl == "S"){
 				Contacto c;
-				int control=borrarContacto (DNI);
+				int control=borrarContacto (DNI);		//Borramos contacto.
 
 				if(control==0){
-					std::cout<<"\n\tLista vacía.\n";
+					std::cout<<"\n\t-Lista vacía.\n";
 					std::cout<<"\t-Pulse ENTER para salir.";
 					getchar();
 
@@ -221,7 +176,7 @@ int Agenda::modificarContacto (const std::string &DNI){
 				else{
 
 					std::cin.clear();
-					std::cin>>c;
+					std::cin>>c;								//Creamos nuevo contacto e introducimos a continuación.
 					if(insertarContacto (c)==false){
 						std::cout<<"\nERROR! Ha habido un error a la hora de introducir el contacto en la agenda\n";
 						std::cout<<"\t-Pulse ENTER para salir.";
@@ -272,7 +227,7 @@ int Agenda::modificarContacto (const std::string &DNI){
 						std::getline(std::cin,cadena,'\n');
 
 						if(cadena=="")//Comprueba que no ha dejado el campo vacio.
-							return -1; //El error tiene que ser mostrado por pantalla en el programa principal.
+							return -1; 
 
 						(*c).setDni(cadena); //Introduce el campo en el contacto.
 
@@ -287,7 +242,7 @@ int Agenda::modificarContacto (const std::string &DNI){
 						std::getline(std::cin,cadena,'\n');
 
 						if(cadena=="")//Comprueba que no ha dejado el campo vacio.
-							return -1; //El error tiene que ser mostrado por pantalla en el programa principal.
+							return -1; 
 
 						(*c).setNombre(cadena); //Introduce el campo en el contacto.
 
@@ -302,7 +257,7 @@ int Agenda::modificarContacto (const std::string &DNI){
 						std::getline(std::cin,cadena,'\n');
 
 						if(cadena=="")//Comprueba que no ha dejado el campo vacio.
-							return -1; //El error tiene que ser mostrado por pantalla en el programa principal.
+							return -1; 
 
 						(*c).setApellidos(cadena); //Introduce el campo en el contacto.
 
@@ -315,11 +270,11 @@ int Agenda::modificarContacto (const std::string &DNI){
 						aux=(*c);
 						int opt=0;
 						int vaux;
-						for(it0=aux.getDireccion().begin();it0!=aux.getDireccion().end();it0++,i++)
+						for(it0=aux.getDireccion().begin();it0!=aux.getDireccion().end();it0++,i++) //Mostramos Direcciones por pantalla.
 							std::cout<<"\t-"<<i+1<<". Dirección: "<<(*it0).provincia<<", "<<(*it0).ciudad<<", "<<(*it0).tipoCalle<<", "<<(*it0).calle<<", "<<(*it0).numero<<", "<< (*it0).CP<<std::endl;
 
 						while(opt>=0 && opt<=i){//Método para comprobar que la dirección introducida es correcta.
-							//std::cin.clear();
+	
 							std::cout<<"\t-Introduzca el número de la dirección a modificar o 0 si desea añadir una nueva:";
 
 							std::cin>>opt;
@@ -373,7 +328,7 @@ int Agenda::modificarContacto (const std::string &DNI){
 						std::getline(std::cin,cadena,'\n');
 
 						if(cadena=="")//Comprueba que no ha dejado el campo vacio.
-							return -1; //El error tiene que ser mostrado por pantalla en el programa principal.
+							return -1; 
 
 						(*c).setEmail(cadena); //Introduce el campo en el contacto.
 
@@ -556,7 +511,6 @@ bool Agenda::listarContactos () {
 		for(std::list<Contacto>::iterator pos=listaContactos_.begin();pos!=listaContactos_.end();pos++){
 
 			std::cout << (*pos);
-			//imprimirContacto(*pos);
 		}
 			return true;
 	}
@@ -872,7 +826,7 @@ void Agenda::leerAgendaJuda(){
 		f.close();
 }
 
-void Agenda::prepararImpresion(){
+void Agenda::prepararImpresion(){ //HTML.
 
 	Contacto c;
 
