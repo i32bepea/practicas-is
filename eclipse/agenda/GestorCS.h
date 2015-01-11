@@ -10,12 +10,14 @@
 #define GESTORCS_H_
 
 #include <string>
+#include <vector>
+#include <iostream>
 
 class GestorCS {
 
 private:
 
-	std::string fichero_;
+	//std::string fichero_;
 
 public:
 	GestorCS(){};
@@ -25,6 +27,8 @@ public:
 	virtual bool restaurarCopia (std::string nombre) = 0;
 	virtual bool borrarCopia (std::string nombre) = 0;
 	virtual bool listarCopia () = 0;
+	virtual void volcar() = 0;
+	virtual void lectura() = 0;
 
 };
 

@@ -150,7 +150,7 @@ void Menu::borrarContacto() {
 
 	else{
 
-		std::cout << "\t-Introduzca el DNI de la persona que desea borrar: " << std::endl;
+		std::cout << "\t-Introduzca el DNI de la persona que desea borrar: ";
 		std::getline(std::cin,dni,'\n');
 
 		do{
@@ -252,7 +252,6 @@ void Menu::modificarContacto() {
 
 		else if(comprobante == -2){
 
-			std::cin.ignore();
 			std::cout<<"\t-Operación abortada"<<std::endl;
 			confirmar();
 		}
@@ -276,7 +275,7 @@ void Menu::listar(){
 		std::cout<<"================================================"<<std::endl;
 
 		std::cout<<"\t+1. Listar todos los Contactos\n\t+2. Listar Contactos Favoritos\n\t+3. Atrás\n";
-		std::cout<<"\n\t- Elija una opción:";
+		std::cout<<"\n\t- Elija una opción: ";
 		std::cin>>opc;
 		std::cin.ignore(); //Se limpia buffer de entrada
 		system("clear");
@@ -354,6 +353,8 @@ void Menu::seguridad(){
 
 		system("clear");
 
+		(*gestor).lectura();
+
 		std::cout<<"================================================"<<std::endl;
 		std::cout<<"               MENÚ DE SEGURIDAD"<<std::endl;
 		std::cout<<"================================================"<<std::endl;
@@ -366,47 +367,60 @@ void Menu::seguridad(){
 
 		case 1:{
 
-			std::cin.ignore();
 
 			if((*gestor).realizarCopia()==true){
 				std::cout<<"\n\t-¡Copia realizada con éxito!"<<std::endl;;
+				std::cin.ignore();
 				confirmar();
 			}
 
 			else{
-				std::cout<<"\n##ERROR  al realizar la copia de seguridad!"<<std::endl;
+				std::cout<<"\n##ERROR  al realizar la copia de seguridad!,no existe 'Agenda.juda'"<<std::endl;
+				std::cin.ignore();
 				confirmar();
 			}
+			(*gestor).volcar();
 		break;}
 
 		case 2:{
 
 			if((*gestor).listarCopia()==false){
-				std::cout<<"\n##ERROR  al listar las copias de seguridad!"<<std::endl;
+				std::cout<<"\n##ERROR  al listar las copias de seguridad!, no existe ninguna Copia de Seguridad"<<std::endl;
 				confirmar();
 
 			}
 
 			else{
-				std::cout<<"\n\t-Introduzca el nombre incluida la extensión, de la copia de seguridad que desea restaurar: ";
-				std::string cadena;
-				std::cin.ignore();
-				std::getline(std::cin,cadena,'\n');
 
-				if((*gestor).restaurarCopia(cadena)==false){
-					std::cout<<"\n##ERROR  al intentar restaurar la copia de seguridad!"<<std::endl;
-					confirmar();
+				int opc;
+
+				do{
+					std::cout<<"\n\t-Introduzca el número de la Copia de Seguridad que quiera restaurar o 0 sino quiere restaurar ninguna: ";
+					std::cin>>opc;
+
+				}while (opc < 0 || (unsigned int)opc >gestorF.getCopiasSeguridad().size());
+
+				if(opc != 0){
+
+					std::string cadena = gestorF.getCopiasSeguridad()[opc-1];
+
+					if((*gestor).restaurarCopia(cadena)==false){
+						std::cout<<"\n##ERROR  al intentar restaurar la copia de seguridad!"<<std::endl;
+						confirmar();
+					}
+
+					else{
+						std::list<Contacto> lista;
+						agenda_.setListaContactos(lista); //Limpiamos la lista de contactos de la agenda, para introducir los nuevos.
+						agenda_.leerAgendaJuda(); //Tenemos que volcar la nueva agenda a memoria.
+						std::cout<<"\n\t-¡Copia de seguridad restaurada satisfactoriamente!"<<std::endl;
+						std::cin.ignore();
+						confirmar();
 				}
-
-				else{
-					std::list<Contacto> lista;
-					agenda_.setListaContactos(lista); //Limpiamos la lista de contactos de la agenda, para introducir los nuevos.
-					agenda_.leerAgendaJuda(); //Tenemos que volcar la nueva agenda a memoria.
-					std::cout<<"\n\t-¡Copia de seguridad restaurada satisfactoriamente!"<<std::endl;
-					confirmar();
 				}
 			}
 			system("clear");
+			(*gestor).volcar();
 		break;}
 
 		case 3:{
@@ -417,23 +431,53 @@ void Menu::seguridad(){
 			}
 
 			else{
-				std::cout<<"\n\t-Introduzca el nombre incluida la extensión, de la copia de seguridad que desea borrar: ";
-				std::string cadena;
-				std::cin>>cadena;
 
-				if((*gestor).borrarCopia(cadena)==false){
-					std::cin.ignore();
-					std::cout<<"\n##ERROR  al intentar borrar la copia de seguridad!"<<std::endl;
-					confirmar();
+				int opc;
+				do{
+					std::cout<<"\n\t-Introduzca el numero de la Copia de Seguridad que quiera eliminar o 0 si no quiere eliminar ninguna: ";
+					std::cin>>opc;
+				}while(opc < 0 ||  (unsigned int)opc > gestorF.getCopiasSeguridad().size());
 
-				}
-				else{
-					std::cin.ignore();
-					std::cout<<"\n\t--¡Copia de seguridad borrada satisfactoriamente!"<<std::endl;
-					confirmar();
+				if(opc != 0){
+
+					std::string cadena = gestorF.getCopiasSeguridad()[opc-1];
+
+					if((*gestor).borrarCopia(cadena)==false){
+						std::cin.ignore();
+						std::cout<<"\n##ERROR  al intentar borrar la copia de seguridad!"<<std::endl;
+						confirmar();
+
+					}
+					else{
+
+						//Borramos elemento del vector.
+
+						std::vector <std::string> v = gestorF.getCopiasSeguridad();
+						std::vector <std::string>::iterator it;
+
+						int i = 0;
+						int size = gestorF.getCopiasSeguridad().size();
+
+						for(it = v.begin(); i < size; it++,i++){
+
+							if(i == (opc-1))
+								v.erase(it);
+
+						}
+
+						gestorF.setCopiasSeguridad(v);
+
+						if(gestorF.getCopiasSeguridad().size() == 0)
+							system("rmdir CS");
+
+						std::cin.ignore();
+						std::cout<<"\n\t--¡Copia de seguridad borrada satisfactoriamente!"<<std::endl;
+						confirmar();
+					}
 				}
 
 			}
+			(*gestor).volcar();
 
 		break;}
 
@@ -444,10 +488,12 @@ void Menu::seguridad(){
 
 			std::cin.ignore();
 			confirmar();
+			(*gestor).volcar();
 
 		break;}
 
 		case 5:{
+			(*gestor).volcar();
 			salir=1;
 
 		break;}

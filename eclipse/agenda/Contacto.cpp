@@ -224,30 +224,31 @@ std::istream &operator>>(std::istream &i,Contacto &c)
 
 		case 8:
 
-			std::cout<<"\t-Introduzca un telefono(OBLIGATORIO): ";
-			std::getline(i,Telefono,'\n');
-			vectorTlf.push_back(Telefono);
+			std::cout<<"\t-¿Quiere introducir algún un teléfono(s/n): ";
+			std::getline(i,tlfOpc,'\n');
 
-			if(Telefono == "") std::cout<<"\n##ERROR, opción inválida\n"<<std::endl;
+			if(tlfOpc!="s" && tlfOpc!="S" && tlfOpc!="n" && tlfOpc!="N") std::cout<<"\n##ERROR, opción inválida\n"<<std::endl;
 
 			else{
-				do{
 
-				std::cout<<"\t-¿Quiere introducir algún otro telefono?(s/n): ";
-				std::getline(i,tlfOpc,'\n');
+				vectorTlf.push_back(Telefono);
 
-					if(tlfOpc == "s" || tlfOpc == "S"){
-						std::cout<<"\t-Introduzca un telefono: ";
-						std::getline(i,Telefono,'\n');
-						vectorTlf.push_back(Telefono);
-					}
+				while(tlfOpc == "s" || tlfOpc == "S"){
 
-				}while(tlfOpc == "s" || tlfOpc == "S");
+					std::cout<<"\t\t-Introduzca un telefono: ";
+					std::getline(i,Telefono,'\n');
+					vectorTlf.push_back(Telefono);
+
+					std::cout<<"\t-¿Quiere introducir algún otro telefono?(s/n): ";
+					std::getline(i,tlfOpc,'\n');
+
+				}
+
 
 				c.setTelefonos(vectorTlf);
 				opc++;
-			}
 
+				}
 
 			break;
 	}
