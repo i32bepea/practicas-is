@@ -1,0 +1,3 @@
+agenda.exe : Main.cpp Contacto.cpp Agenda.cpp GestorCSFichero.cpp Menu.cpp
+	 g++ Main.cpp Contacto.cpp Agenda.cpp GestorCSFichero.cpp Menu.cpp -o agenda.exe
+

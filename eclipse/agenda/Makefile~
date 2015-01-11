@@ -1,3 +1,5 @@
+
+
 # A sample Makefile for building Google Test and using it in user
 # tests.  Please tweak it to suit your environment and project.  You
 # may want to move it to your project's root directory.
@@ -71,14 +73,20 @@ gtest_main.a : gtest-all.o gtest_main.o
 # Builds a sample test.  A test should link with either gtest.a or
 # gtest_main.a, depending on whether it defines its own main()
 # function.
+agenda.exe : Main.cpp Contacto.cpp Agenda.cpp GestorCSFichero.cpp Menu.cpp
+	 g++ Main.cpp Contacto.cpp Agenda.cpp GestorCSFichero.cpp Menu.cpp -o agenda.exe
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $^ -o $@
 
 Contacto.o : Contacto.cpp Contacto.h
 contacto_unittest.o : contacto_unittest.cpp Contacto.h Contacto.cpp
 contacto_unittest : Contacto.o contacto_unittest.o gtest_main.a
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $^ -o $@
 
 Agenda.o : Agenda.cpp Agenda.h
 agenda_unittest.o : agenda_unittest.cpp Agenda.h Agenda.cpp
 agenda_unittest : Agenda.o Contacto.o agenda_unittest.o gtest_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $^ -o $@
+
+
 
 	
