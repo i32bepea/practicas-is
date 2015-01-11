@@ -34,6 +34,7 @@ Contacto::~Contacto() {
 
 std::ostream &operator<<(std::ostream &o,const Contacto &c){
 
+
 	std::vector <Direccion>::const_iterator it0;
 	std::vector <Redes>::const_iterator it1;
 	std::vector <std::string>::const_iterator it2;
@@ -60,7 +61,7 @@ std::ostream &operator<<(std::ostream &o,const Contacto &c){
 
 	o<<"=========================================================================="<<std::endl;
 
-return o;
+	return o;
 }
 
 std::istream &operator>>(std::istream &i,Contacto &c)

@@ -46,9 +46,7 @@ bool GestorCSFichero::restaurarCopia (std::string nombre){ // Restaura la copia 
 		f.close();
 
 		cadena= "cp " + cadena + " agenda.juda";
-		std::cout<<"&"<<cadena<<"$";
-		int a;
-		std::cin>>a;
+
 		if(system(cadena.c_str())==-1){
 			return false;
 		}
@@ -83,6 +81,9 @@ bool GestorCSFichero::borrarCopia (std::string nombre){ // Borra la copia de seg
 	  }
 }
 bool GestorCSFichero::listarCopia (){ // Borra la copia de seguridad indicada en string nombre, tiene que venir con la extensión, y las comprobaciones de que exista las hace la función.
+
+	std::cout<<"==============  copias de seguridad  =============="<<std::endl;
+
 	if(system("ls ./CS")==-1)
 		return false;
 	else

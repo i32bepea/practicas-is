@@ -13,7 +13,6 @@ int main(){
 
 	Menu menuPrincipal;
 
-
 	do{
 
 		menuPrincipal.mostrarMenu();
@@ -50,19 +49,26 @@ int main(){
 
 			menuPrincipal.seguridad();
 			break;
+
 		case 7:
+
+			std::cin.ignore();
+			menuPrincipal.prepararImpersion();
+			break;
+		case 8:
 
 			menuPrincipal.salir();
 			break;
 
 		default:
-			std::cout<<"\n¡Opción incorrecta!";
+			break;
 
 		}
 
 
 
-	}while(opc != 7);
+	}while(opc != 8);
+
 
 	return 0;
 }

@@ -11,6 +11,9 @@
 #include "GestorCS.h"
 
 class GestorCSFichero: public GestorCS {
+
+private:
+
 public:
 
 	bool realizarCopia();
@@ -19,7 +22,9 @@ public:
 	bool listarCopia ();
 
 	GestorCSFichero(){};
-	virtual ~GestorCSFichero(){};
+	virtual ~GestorCSFichero() {
+	}
+
 };
 
 #endif /* GESTORCSFICHERO_H_ */

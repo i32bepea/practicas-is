@@ -30,6 +30,8 @@ public:
 	int listarFavoritos();
 	void volcado(); //Vuelca la agenda al fichero agenda.juda
 	void leerAgendaJuda();
+	void prepararImpresion();
+
 	const std::list<Contacto>& getListaContactos() const {
 		return listaContactos_;
 	}
