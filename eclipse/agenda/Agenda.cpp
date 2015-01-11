@@ -125,6 +125,7 @@ Contacto Agenda::buscarContactoAux (const std::string &DNI,int * devuelto){
 	if(listaContactos_.empty()){
 		(*devuelto)=0;
 	}
+	else{
 
 	for(std::list<Contacto>::iterator pos=listaContactos_.begin();pos!=listaContactos_.end();pos++){
 		if(DNI==pos->getDni()){
@@ -133,7 +134,8 @@ Contacto Agenda::buscarContactoAux (const std::string &DNI,int * devuelto){
 		}
 	}
 
-	*devuelto=0;
+	*devuelto=-1;
+	}
 	return aux;
 }
 
