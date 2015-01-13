@@ -30,12 +30,6 @@ void Menu::borrarContacto() {
 
 	std::cout << "Introduzca los apellidos de la persona que desea borrar: " << std::endl;
 	std::cin >>aux.getApellidos();
-
-
-
-
-
-
 }
 
 void Menu::modificarContacto() {
@@ -43,12 +37,10 @@ void Menu::modificarContacto() {
 	Contacto aux;
 	Agenda a_;
 
-	a_.modificarContacto();
+	std::cout << "Introduzca el DNI del contacto que quieras modificar" << std::endl;
+	std::cin >>aux.getDni();
 
-
-
-
-
+	a_.modificarContacto(aux.getDni());
 }
 
 
