@@ -1,0 +1,44 @@
+from django.db import models
+
+# Create your models here.
+
+class Equipo(models.Model):
+    nombre = models.CharField(max_length=200,unique=True)
+    nombre_url = models.CharField(max_length=200,unique=True)
+    estadio = models.CharField(max_length=200)
+    ciudad = models.CharField(max_length=200)
+    escudo = models.ImageField(upload_to = 'escudos', verbose_name = 'Picture')
+    puntos = models.IntegerField(default=0)
+    partidos_jugados = models.IntegerField(default=0)
+    partidos_ganados = models.IntegerField(default=0)
+    partidos_empatados = models.IntegerField(default=0)
+    partidos_perdidos = models.IntegerField(default=0)
+    goles_favor = models.IntegerField(default=0)
+    goles_contra = models.IntegerField(default=0)
+    def __unicode__(self):
+        return self.nombre
+
+class Partido(models.Model):
+    equipo_local = models.ForeignKey(Equipo, related_name='equipo_local')
+    equipo_visitante = models.ForeignKey(Equipo, related_name='equipo_visitante')
+    goles_local = models.IntegerField(default = 0)
+    goles_visitante = models.IntegerField(default = 0)
+    jornada = models.IntegerField()
+    fecha = models.DateField()
+    def __unicode__(self):
+        return self.equipo_local.nombre + ' - ' + self.equipo_visitante.nombre
+
+class Jugador(models.Model):
+    DELANTERO = 'Delantero'
+    CENTROCAMPISTA = 'Centrocampista'
+    DEFENSA = 'Defensa'
+    PORTERO = 'Portero'
+    OPCIONES_POSICION = ((DELANTERO, 'Delantero'), (CENTROCAMPISTA, 'Centrocampista'), (DEFENSA, 'Defensa'), (PORTERO, 'Portero'))
+    nombre = models.CharField(max_length=200)
+    dorsal = models.IntegerField()
+    edad = models.IntegerField()
+    goles = models.IntegerField(default = 0)
+    posicion = models.CharField(max_length=200, choices=OPCIONES_POSICION)
+    equipo = models.ForeignKey(Equipo)
+    def __unicode__(self):
+        return self.nombre
