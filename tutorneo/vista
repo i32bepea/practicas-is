@@ -1,0 +1,196 @@
+from django.http import HttpResponse, Http404
+from django.template import RequestContext, loader
+from django.shortcuts import render, redirect
+from .models import Equipo, Partido, Jugador
+from django.views.generic.base import View
+from .forms import *
+
+def clasificacion(request):
+    lista_equipos = Equipo.objects.order_by('-puntos')
+    context = { 'lista_equipos' : lista_equipos }
+    return render(request,'clasificacion.html', context)
+
+def peticion_equipo(request, nombre_equipo):
+    try:
+        equipo = Equipo.objects.get(nombre_url__iexact=nombre_equipo)
+    except Equipo.DoesNotExist:
+        raise Http404('No existe el equipo')
+
+    lista_jugadores = Jugador.objects.filter(equipo=equipo)
+    lista_jugadores = lista_jugadores.order_by('dorsal')
+    context = { 'equipo' : equipo, 'lista_jugadores' : lista_jugadores}
+    return render(request, 'informacion_equipo.html', context)
+
+def peticion_jornada(request, numero_jornada):
+
+
+    lista_partidos = Partido.objects.filter(jornada=numero_jornada)
+    lista_partidos = lista_partidos.order_by('fecha')
+
+    if lista_partidos:
+        min_date = lista_partidos[0].fecha
+        max_date = lista_partidos[len(lista_partidos) -1].fecha
+        context = { 'lista_partidos' : lista_partidos, 'min_date' : min_date, 'max_date' : max_date }
+        return render(request, 'mostrar_jornada.html', context)
+    else:
+        return render(request,'mostrar_jornada.html')
+
+def calendario(request):
+    lista_partidos = Partido.objects.order_by('fecha')
+    context = { 'lista_partidos' : lista_partidos }
+    return render(request, 'calendario.html', context)
+
+def equipos(request):
+    lista_equipos = Equipo.objects.order_by('nombre')
+    context = { 'lista_equipos' : lista_equipos}
+    return render (request, 'equipos.html', context)
+
+def add_equipo(request):
+    if request.user.is_staff:
+        if request.method == 'POST':
+
+            equipo = Equipo()
+            formulario = EquipoForm(request.POST, request.FILES,instance=equipo)
+
+            if formulario.is_valid():
+                formulario.save()
+                return redirect('/liga/equipos')
+            else:
+                print formulario.errors
+        else:
+            formulario = EquipoForm()
+
+        context = { 'formulario' : formulario }
+        return render(request,'add_equipo.html',context)
+    else:
+        return redirect('/')
+
+def add_partido(request):
+
+    if request.user.is_staff:
+        if request.method == 'POST':
+
+            partido = Partido()
+            formulario = PartidoForm(request.POST,instance=partido)
+
+            if formulario.is_valid():
+                formulario.save()
+                return redirect('/liga/calendario')
+            else:
+                print formulario.errors
+        else:
+            formulario = PartidoForm()
+
+        context = { 'formulario' : formulario }
+        return render(request,'add_partido.html',context)
+    else:
+        return redirect('/')
+
+def add_jugador(request, nombre_equipo):
+
+    if request.user.is_staff:
+
+        equipo = Equipo.objects.get(nombre_url__iexact=nombre_equipo)
+        if request.method == 'POST':
+
+            jugador = Jugador()
+            formulario = JugadorForm(request.POST,instance=jugador)
+
+            if formulario.is_valid():
+                formulario.save(commit=False)
+                jugador.equipo = equipo
+                jugador.save()
+                return redirect('/liga/equipos/')
+            else:
+                print formulario.errors
+        else:
+            formulario = JugadorForm()
+
+        context = { 'formulario' : formulario, 'equipo' : equipo }
+        return render(request,'add_jugador.html',context)
+    else:
+        return redirect('/')
+
+def editar_equipo(request,nombre_equipo):
+
+    if request.user.is_staff:
+        equipo = Equipo.objects.get(nombre_url=nombre_equipo)
+
+        if request.method == 'POST':
+
+            formulario = EquipoForm(request.POST,instance=equipo)
+            if formulario.is_valid:
+                formulario.save()
+                return redirect('/liga')
+            else:
+                print formulario.errors
+        else:
+            formulario = EquipoForm(instance=equipo)
+
+        context = {'formulario' : formulario}
+        return render(request,'editar_equipo.html',context)
+
+    else:
+        return redirect('/')
+
+def editar_jugador(request,id_jugador):
+
+    if request.user.is_staff:
+        jugador = Jugador.objects.get(pk=id_jugador)
+
+        if request.method == 'POST':
+
+            formulario = JugadorForm(request.POST,instance=jugador)
+            if formulario.is_valid:
+                formulario.save()
+                return redirect('/liga')
+            else:
+                print formulario.errors
+        else:
+            formulario = JugadorForm(instance=jugador)
+
+        context = {'formulario' : formulario}
+        return render(request,'editar_jugador.html',context)
+
+    else:
+        return redirect('/')
+
+def editar_partido(request,id_partido):
+
+    if request.user.is_staff:
+        partido = Partido.objects.get(pk=id_partido)
+
+        if request.method == 'POST':
+
+            formulario = PartidoForm(request.POST,instance=partido)
+            if formulario.is_valid:
+                formulario.save()
+                return redirect('/liga/calendario')
+            else:
+                print formulario.errors
+        else:
+            formulario = PartidoForm(instance=partido)
+
+        context = {'formulario' : formulario}
+        return render(request,'editar_partido.html',context)
+
+    else:
+        return redirect('/')
+
+class editar_equipos(View):
+    form_class = EquipoForm
+    template_name = 'editar_equipo.html'
+
+    def post(self, request, *arg, **kwargs):
+        equipo = Equipo.objects.get(nombre_url=self.kwargs['nombre_equipo'])
+        formulario = self.form_class(request.POST,instance=equipo)
+        if formulario.is_valid():
+            formulario.save()
+            return redirect('/liga')
+        else:
+            print formulario.errors
+    def get(self,request, *arg, **kwargs):
+        equipo = Equipo.objects.get(nombre_url=self.kwargs['nombre_equipo'])
+        formulario = self.form_class(instance=equipo)
+        context = {'formulario' : formulario}
+        return render(request,self.template_name,context)
