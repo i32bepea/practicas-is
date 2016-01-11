@@ -1,0 +1,25 @@
+from django.forms.extras.widgets import SelectDateWidget
+from django.forms import ModelForm, extras
+from django import forms
+from .models import Partido, Equipo, Jugador
+
+class EquipoForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(EquipoForm, self).__init__(*args, **kwargs)
+        self.fields['escudo'].label = 'Escudo'
+
+    class Meta:
+        model = Equipo
+
+class PartidoForm(forms.ModelForm):
+
+    fecha = forms.DateField(widget=extras.SelectDateWidget)
+    class Meta:
+        model = Partido
+
+class JugadorForm(forms.ModelForm):
+
+    class Meta:
+        model = Jugador
+        exclude = ('equipo',)
