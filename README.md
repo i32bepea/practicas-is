@@ -1,10 +1,4 @@
 practicas-is
 ============
 
-Este repositorio es una prueba
-
-Estoy probando
-
-Sigo probando
-
-Soy ulises
+Practicas de la asignatura de Ingeniería del Software de la Universidad de Córdoba
